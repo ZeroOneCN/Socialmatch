@@ -1,0 +1,34 @@
+@startuml "同频App用例图"
+
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam usecaseStyle oval
+
+left to right direction
+
+actor 用户 as User
+actor 管理员 as Admin
+
+rectangle "同频App系统" {
+  usecase "用户匹配" as UC1
+  usecase "查看用户资料" as UC5
+  usecase "在线聊天" as UC2
+  usecase "发布动态" as UC3
+  usecase "点赞/评论" as UC3_1
+  usecase "用户管理" as UC4
+  usecase "认证审核" as UC6
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC5
+User --> UC3_1
+UC3_1 ..> UC3 : <<extend>>
+UC5 ..> UC1 : <<include>>
+UC2 ..> UC1 : <<include>>
+
+Admin --> UC4
+Admin --> UC6
+
+@enduml 

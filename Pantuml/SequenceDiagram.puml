@@ -1,0 +1,45 @@
+@startuml "用户匹配顺序图"
+
+actor 用户 as User
+participant "匹配页面" as MatchPage
+participant "匹配服务" as MatchService
+participant "用户服务" as UserService
+database "数据库" as DB
+
+User -> MatchPage: 1. 进入匹配页面
+activate MatchPage
+
+MatchPage -> UserService: 2. 获取用户信息(用户ID)
+activate UserService
+UserService -> DB: 2.1 查询用户信息
+activate DB
+DB --> UserService: 返回用户信息和兴趣标签
+deactivate DB
+UserService --> MatchPage: 返回用户信息
+deactivate UserService
+
+MatchPage -> MatchService: 3. 请求推荐匹配(用户ID, 兴趣标签)
+activate MatchService
+MatchService -> DB: 3.1 查询潜在匹配用户
+activate DB
+DB --> MatchService: 返回潜在匹配用户列表
+deactivate DB
+
+MatchService -> MatchService: 3.2 计算"同频"指数
+MatchService --> MatchPage: 返回推荐匹配列表
+deactivate MatchService
+
+MatchPage --> User: 4. 显示推荐匹配列表
+User -> MatchPage: 5. 选择匹配对象
+MatchPage -> MatchService: 6. 创建匹配请求(用户ID, 目标用户ID)
+activate MatchService
+MatchService -> DB: 6.1 保存匹配请求
+activate DB
+DB --> MatchService: 保存成功
+deactivate DB
+MatchService --> MatchPage: 返回匹配结果
+deactivate MatchService
+MatchPage --> User: 7. 显示匹配成功
+deactivate MatchPage
+
+@enduml 

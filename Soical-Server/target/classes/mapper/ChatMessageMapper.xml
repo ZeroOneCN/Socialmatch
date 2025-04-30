@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.ChatMessageMapper">
+    
+    <!-- 分页查询会话消息 -->
+    <select id="selectMessagesByConversation" resultType="com.soical.server.entity.ChatMessage">
+        SELECT m.*, u.username, u.avatar, up.nickname
+        FROM t_chat_message m
+        LEFT JOIN t_user u ON m.sender_id = u.user_id
+        LEFT JOIN t_user_profile up ON m.sender_id = up.user_id
+        WHERE m.conversation_id = #{conversationId}
+        ORDER BY m.create_time ASC
+    </select>
+    
+    <!-- 统计未读消息数 -->
+    <select id="countUnreadMessages" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_chat_message
+        WHERE conversation_id = #{conversationId}
+          AND sender_id != #{userId}
+          AND is_read = 0
+    </select>
+    
+    <!-- 将消息标记为已读 -->
+    <update id="markMessagesAsRead">
+        UPDATE t_chat_message
+        SET is_read = 1
+        WHERE conversation_id = #{conversationId}
+          AND sender_id != #{userId}
+          AND is_read = 0
+    </update>
+    
+    <!-- 根据消息ID标记为已读 -->
+    <update id="markAsRead">
+        UPDATE t_chat_message
+        SET is_read = 1
+        WHERE message_id = #{messageId}
+    </update>
+    
+    <!-- 获取两个用户之间的消息 -->
+    <select id="getMessagesBetweenUsers" resultType="com.soical.server.entity.ChatMessage">
+        SELECT m.*
+        FROM t_chat_message m
+        JOIN t_conversation c ON m.conversation_id = c.conversation_id
+        WHERE (c.user_a_id = #{userId1} AND c.user_b_id = #{userId2})
+           OR (c.user_a_id = #{userId2} AND c.user_b_id = #{userId1})
+        ORDER BY m.create_time DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    
+    <!-- 将会话中接收者的消息标记为已读 -->
+    <update id="markConversationMessagesAsRead">
+        UPDATE t_chat_message
+        SET is_read = 1
+        WHERE conversation_id = #{conversationId}
+          AND receiver_id = #{receiverId}
+          AND is_read = 0
+    </update>
+</mapper> 

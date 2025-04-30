@@ -1,0 +1,92 @@
+@startuml "SameFrequency App Business Class Diagram"
+
+' English Version
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classFontSize 14
+
+class User {
+  -userId: String
+  -username: String
+  -password: String
+  -interestTags: List<String>
+  -status: String
+  -registerTime: Date
+  +login(): Boolean
+  +viewRecommendationList(): List<User>
+  +viewUserProfile(userId): User
+  +matchUser(userId): Boolean
+}
+
+class Match {
+  -matchId: String
+  -activeUserId: String
+  -passiveUserId: String
+  -matchStatus: String
+  -matchTime: Date
+  -frequencyIndex: Float
+  +calculateFrequencyIndex(): Float
+  +acceptMatch(): Boolean
+  +rejectMatch(): Boolean
+}
+
+class Chat {
+  -chatId: String
+  -userA: User
+  -userB: User
+  -createTime: Date
+  +sendMessage(content): Message
+  +getHistoryMessages(): List<Message>
+}
+
+class Message {
+  -messageId: String
+  -senderId: String
+  -receiverId: String
+  -content: String
+  -type: String
+  -sendTime: Date
+  -status: String
+  +markAsRead(): void
+}
+
+class Moment {
+  -momentId: String
+  -userId: String
+  -content: String
+  -images: List<String>
+  -publishTime: Date
+  +like(): void
+  +comment(content): Comment
+  +delete(): void
+}
+
+class Comment {
+  -commentId: String
+  -momentId: String
+  -userId: String
+  -content: String
+  -publishTime: Date
+  +delete(): void
+}
+
+class Certification {
+  -certificationId: String
+  -userId: String
+  -certType: String
+  -certMaterials: String
+  -certStatus: String
+  -applyTime: Date
+  -reviewTime: Date
+  +submitCertification(): void
+  +reviewCertification(result): Boolean
+}
+
+User "1" -- "many" Match
+User "1" -- "many" Chat
+Chat "1" -- "many" Message
+User "1" -- "many" Moment
+Moment "1" -- "many" Comment
+User "1" -- "many" Certification
+
+@enduml 

@@ -1,0 +1,189 @@
+@import './variables.scss';
+
+/* 重置样式 */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  color: $text-color-primary;
+  background-color: $background-color-base;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $background-color-light;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $text-color-placeholder;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $text-color-secondary;
+}
+
+/* 通用工具类 */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.pt-10 {
+  padding-top: 10px;
+}
+
+.pb-10 {
+  padding-bottom: 10px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+/* 自定义全局样式 */
+.page-container {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.card-container {
+  background: $background-color-light;
+  border-radius: $border-radius-base;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: $box-shadow-light;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-form {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $border-color-light;
+}
+
+.action-bar {
+  margin-bottom: 20px;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  text-align: right;
+}
+
+/* 自定义Element-Plus样式 */
+.el-table {
+  width: 100%;
+  th {
+    background-color: $background-color-dark !important;
+  }
+}
+
+.el-dialog {
+  border-radius: $border-radius-base;
+}
+
+.el-form-item__label {
+  font-weight: 500;
+}
+
+.el-button--primary {
+  background-color: $primary-color;
+}
+
+.el-button--success {
+  background-color: $success-color;
+}
+
+.el-button--warning {
+  background-color: $warning-color;
+}
+
+.el-button--danger {
+  background-color: $danger-color;
+}
+
+.el-button--info {
+  background-color: $info-color;
+} 

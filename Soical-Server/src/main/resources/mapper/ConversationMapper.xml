@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.ConversationMapper">
+    
+    <!-- 获取两个用户之间的会话 -->
+    <select id="getConversationByUsers" resultType="com.soical.server.entity.Conversation">
+        SELECT * FROM t_conversation
+        WHERE (user_a_id = #{userIdA} AND user_b_id = #{userIdB})
+           OR (user_a_id = #{userIdB} AND user_b_id = #{userIdA})
+        LIMIT 1
+    </select>
+    
+    <!-- 更新会话最后一条消息 -->
+    <update id="updateLastMessage">
+        UPDATE t_conversation
+        SET last_message = #{lastMessage},
+            last_message_time = #{lastMessageTime}
+        WHERE conversation_id = #{conversationId}
+    </update>
+    
+    <!-- 获取用户的会话列表，并关联用户资料 -->
+    <select id="getConversationsWithUserInfo" resultType="com.soical.server.entity.Conversation">
+        SELECT c.*,
+               CASE 
+                  WHEN c.user_a_id = #{userId} THEN up_b.nickname
+                  ELSE up_a.nickname
+               END as target_user_nickname,
+               CASE 
+                  WHEN c.user_a_id = #{userId} THEN COALESCE(up_b.avatar, u_b.avatar)
+                  ELSE COALESCE(up_a.avatar, u_a.avatar)
+               END as target_user_avatar,
+               CASE 
+                  WHEN c.user_a_id = #{userId} THEN c.user_b_id
+                  ELSE c.user_a_id
+               END as target_user_id
+        FROM t_conversation c
+        LEFT JOIN t_user u_a ON c.user_a_id = u_a.user_id
+        LEFT JOIN t_user u_b ON c.user_b_id = u_b.user_id
+        LEFT JOIN t_user_profile up_a ON c.user_a_id = up_a.user_id
+        LEFT JOIN t_user_profile up_b ON c.user_b_id = up_b.user_id
+        WHERE c.user_a_id = #{userId} OR c.user_b_id = #{userId}
+        ORDER BY c.last_message_time DESC
+    </select>
+</mapper> 

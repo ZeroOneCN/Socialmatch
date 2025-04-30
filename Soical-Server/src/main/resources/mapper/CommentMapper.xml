@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.CommentMapper">
+    
+    <!-- 查询带用户信息的评论列表 -->
+    <select id="selectCommentsWithUser" resultType="com.soical.server.entity.Comment">
+        SELECT 
+            c.*, 
+            u.username, u.avatar, up.nickname,
+            ru.username as reply_username, 
+            rup.nickname as reply_nickname
+        FROM t_comment c
+        LEFT JOIN t_user u ON c.user_id = u.user_id
+        LEFT JOIN t_user_profile up ON c.user_id = up.user_id
+        LEFT JOIN t_user ru ON c.reply_user_id = ru.user_id
+        LEFT JOIN t_user_profile rup ON c.reply_user_id = rup.user_id
+        WHERE c.post_id = #{postId} AND c.status = 1
+        ORDER BY 
+            CASE WHEN c.parent_id IS NULL THEN c.comment_id ELSE c.parent_id END ASC,
+            c.create_time ASC
+    </select>
+</mapper> 

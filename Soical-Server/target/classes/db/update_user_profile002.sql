@@ -1,0 +1,23 @@
+CREATE TABLE `t_user_profile` (
+  `profile_id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `nickname` varchar(50) DEFAULT '' COMMENT '昵称',
+  `education` int DEFAULT '0' COMMENT '学历：0-未知，1-大专，2-本科，3-硕士，4-博士',
+  `occupation` varchar(50) DEFAULT '' COMMENT '职业',
+  `location` varchar(100) DEFAULT '' COMMENT '所在地',
+  `self_intro` text COMMENT '自我介绍',
+  `hobbies` text COMMENT '兴趣爱好',
+  `photos` json DEFAULT NULL COMMENT '个人相册',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像URL',
+  `city` varchar(50) DEFAULT '' COMMENT '城市',
+  `city_code` varchar(20) DEFAULT NULL COMMENT '城市代码',
+  `province_code` varchar(20) DEFAULT NULL COMMENT '省份代码',
+  `gender` int DEFAULT NULL COMMENT '性别：0-位置，1-男，2-女，3-保密',
+  `birthday` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '生日',
+  `occupation_code` varchar(20) DEFAULT NULL COMMENT '职业代码',
+  PRIMARY KEY (`profile_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `t_user_profile_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `t_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户资料表';

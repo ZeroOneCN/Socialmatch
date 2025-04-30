@@ -1,0 +1,32 @@
+{
+  "name": "soical-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vant/area-data": "^2.0.0",
+    "axios": "^1.8.4",
+    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
+    "element-plus": "^2.9.8",
+    "ioredis": "^5.6.0",
+    "marked": "^15.0.8",
+    "pinia": "^2.3.1",
+    "socket.io-client": "^4.8.1",
+    "vant": "^4.0.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "sass-embedded": "^1.86.3",
+    "vite": "^6.2.0"
+  }
+}

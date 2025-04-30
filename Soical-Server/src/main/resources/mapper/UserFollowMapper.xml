@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.UserFollowMapper">
+    
+    <!-- 查询用户关注的用户列表（带用户信息） -->
+    <select id="selectFollowingUsersWithInfo" resultType="com.soical.server.entity.User">
+        SELECT u.*, up.nickname, up.avatar, up.self_intro, up.city
+        FROM t_user u
+        LEFT JOIN t_user_profile up ON u.user_id = up.user_id
+        JOIN t_user_follow f ON u.user_id = f.followed_id
+        WHERE f.follower_id = #{followerId} AND f.status = 1
+        ORDER BY f.create_time DESC
+    </select>
+    
+    <!-- 查询用户的粉丝列表（带用户信息） -->
+    <select id="selectFollowerUsersWithInfo" resultType="com.soical.server.entity.User">
+        SELECT u.*, up.nickname, up.avatar, up.self_intro, up.city
+        FROM t_user u
+        LEFT JOIN t_user_profile up ON u.user_id = up.user_id
+        JOIN t_user_follow f ON u.user_id = f.follower_id
+        WHERE f.followed_id = #{followedId} AND f.status = 1
+        ORDER BY f.create_time DESC
+    </select>
+    
+    <!-- 查询用户关注的用户ID列表 -->
+    <select id="selectFollowingIds" resultType="java.lang.Long">
+        SELECT followed_id
+        FROM t_user_follow
+        WHERE follower_id = #{followerId} AND status = 1
+    </select>
+    
+    <!-- 统计用户的粉丝数 -->
+    <select id="countFollowers" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_user_follow
+        WHERE followed_id = #{followedId} AND status = 1
+    </select>
+    
+    <!-- 统计用户关注的人数 -->
+    <select id="countFollowing" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_user_follow
+        WHERE follower_id = #{followerId} AND status = 1
+    </select>
+</mapper> 

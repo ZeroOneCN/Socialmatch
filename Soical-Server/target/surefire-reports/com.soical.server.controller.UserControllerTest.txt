@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: com.soical.server.controller.UserControllerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 4.152 s <<< FAILURE! - in com.soical.server.controller.UserControllerTest
+testUserLogin  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [E:\Code\NewProject\Soical-Server\target\classes\com\soical\server\config\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.soical.server.util.JwtUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.soical.server.util.JwtUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+
+testGetUserInfo  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in file [E:\Code\NewProject\Soical-Server\target\classes\com\soical\server\config\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.soical.server.util.JwtUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.soical.server.util.JwtUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+

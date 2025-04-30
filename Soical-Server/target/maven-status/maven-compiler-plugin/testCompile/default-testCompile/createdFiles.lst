@@ -1,0 +1,3 @@
+com\soical\server\service\UserServiceTest.class
+com\soical\server\SoicalServerApplicationTests.class
+com\soical\server\controller\UserControllerTest.class

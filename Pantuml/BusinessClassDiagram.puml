@@ -1,0 +1,92 @@
+@startuml "同频App业务类图"
+
+' Chinese Version
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classFontSize 14
+
+class 用户 {
+  -用户ID: String
+  -用户名: String
+  -密码: String
+  -兴趣标签: List<String>
+  -状态: String
+  -注册时间: Date
+  +登录(): Boolean
+  +查看推荐列表(): List<用户>
+  +查看用户资料(用户ID): 用户
+  +匹配用户(用户ID): Boolean
+}
+
+class 匹配 {
+  -匹配ID: String
+  -主动用户ID: String
+  -被动用户ID: String
+  -匹配状态: String
+  -匹配时间: Date
+  -同频指数: Float
+  +计算同频指数(): Float
+  +接受匹配(): Boolean
+  +拒绝匹配(): Boolean
+}
+
+class 聊天 {
+  -聊天ID: String
+  -用户A: 用户
+  -用户B: 用户
+  -创建时间: Date
+  +发送消息(内容): 消息
+  +获取历史消息(): List<消息>
+}
+
+class 消息 {
+  -消息ID: String
+  -发送者ID: String
+  -接收者ID: String
+  -内容: String
+  -类型: String
+  -发送时间: Date
+  -状态: String
+  +已读(): void
+}
+
+class 动态 {
+  -动态ID: String
+  -用户ID: String
+  -内容: String
+  -图片: List<String>
+  -发布时间: Date
+  +点赞(): void
+  +评论(内容): 评论
+  +删除(): void
+}
+
+class 评论 {
+  -评论ID: String
+  -动态ID: String
+  -用户ID: String
+  -内容: String
+  -发布时间: Date
+  +删除(): void
+}
+
+class 认证 {
+  -认证ID: String
+  -用户ID: String
+  -认证类型: String
+  -认证资料: String
+  -认证状态: String
+  -申请时间: Date
+  -审核时间: Date
+  +提交认证(): void
+  +审核认证(结果): Boolean
+}
+
+用户 "1" -- "多" 匹配
+用户 "1" -- "多" 聊天
+聊天 "1" -- "多" 消息
+用户 "1" -- "多" 动态
+动态 "1" -- "多" 评论
+用户 "1" -- "多" 认证
+
+@enduml 

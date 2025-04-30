@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.EducationVerificationMapper">
+    <resultMap id="BaseResultMap" type="com.soical.server.entity.verification.EducationVerification">
+        <id column="verification_id" jdbcType="BIGINT" property="verificationId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="college" jdbcType="VARCHAR" property="college"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="student_id" jdbcType="VARCHAR" property="studentId"/>
+        <result column="enrollment_year" jdbcType="INTEGER" property="enrollmentYear"/>
+        <result column="student_card_front" jdbcType="VARCHAR" property="studentCardFront"/>
+        <result column="student_card_inside" jdbcType="VARCHAR" property="studentCardInside"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        verification_id, user_id, type, status, reject_reason, create_time, update_time,
+        school, college, major, student_id, enrollment_year, student_card_front, student_card_inside
+    </sql>
+    
+    <insert id="insert" parameterType="com.soical.server.entity.verification.EducationVerification">
+        INSERT INTO t_education_verification (
+            verification_id, user_id, type, status, reject_reason, create_time, update_time,
+            school, college, major, student_id, enrollment_year, student_card_front, student_card_inside
+        )
+        VALUES (
+            #{verificationId}, #{userId}, #{type}, #{status}, #{rejectReason}, #{createTime}, #{updateTime},
+            #{school}, #{college}, #{major}, #{studentId}, #{enrollmentYear}, #{studentCardFront}, #{studentCardInside}
+        )
+    </insert>
+    
+    <select id="selectByVerificationId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_education_verification
+        WHERE verification_id = #{verificationId}
+    </select>
+    
+    <select id="selectApprovedByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_education_verification
+        WHERE user_id = #{userId}
+        AND status = 'approved'
+        ORDER BY update_time DESC
+        LIMIT 1
+    </select>
+</mapper>

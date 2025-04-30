@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soical.server.mapper.UserMatchMapper">
+    
+    <!-- 查询用户的匹配列表 -->
+    <select id="selectUserMatches" resultType="com.soical.server.entity.UserMatch">
+        SELECT m.*
+        FROM t_user_match m
+        WHERE (m.user_a_id = #{userId} OR m.user_b_id = #{userId})
+        <if test="status != null">
+            AND m.status = #{status}
+        </if>
+        ORDER BY m.create_time DESC
+    </select>
+    
+    <!-- 查询两个用户之间的匹配关系 -->
+    <select id="selectMatchBetweenUsers" resultType="com.soical.server.entity.UserMatch">
+        SELECT *
+        FROM t_user_match
+        WHERE (user_a_id = #{userAId} AND user_b_id = #{userBId})
+           OR (user_a_id = #{userBId} AND user_b_id = #{userAId})
+        LIMIT 1
+    </select>
+    
+    <!-- 统计用户的匹配数量 -->
+    <select id="countUserMatches" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_user_match
+        WHERE (user_a_id = #{userId} OR user_b_id = #{userId})
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+    </select>
+    
+    <!-- 更新匹配状态 -->
+    <update id="updateMatchStatus">
+        UPDATE t_user_match
+        SET status = #{status}
+        WHERE match_id = #{matchId}
+    </update>
+    
+    <!-- 获取用户的推荐列表 - 简化版，避免复杂嵌套 -->
+    <select id="selectRecommendedUserIds" resultType="java.lang.Long">
+        SELECT u.user_id
+        FROM t_user u
+        LEFT JOIN t_user_profile p ON u.user_id = p.user_id
+        LEFT JOIN t_user_match m ON (
+            (m.user_a_id = #{userId} AND m.user_b_id = u.user_id) 
+            OR (m.user_a_id = u.user_id AND m.user_b_id = #{userId})
+        )
+        WHERE u.user_id != #{userId}
+        AND u.status = 1
+        <if test="gender != null">
+            AND u.gender = #{gender}
+        </if>
+        <if test="location != null and location != ''">
+            AND (p.location LIKE CONCAT('%', #{location}, '%') 
+            OR p.city LIKE CONCAT('%', #{location}, '%'))
+        </if>
+        <if test="ageMin != null">
+            AND TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) >= #{ageMin}
+        </if>
+        <if test="ageMax != null">
+            AND TIMESTAMPDIFF(YEAR, u.birthday, CURDATE()) &lt;= #{ageMax}
+        </if>
+        <!-- 排除已匹配或拒绝的用户 -->
+        AND (m.match_id IS NULL OR (m.status != 1 AND m.status != 3))
+        ORDER BY RAND()
+        LIMIT #{limit}
+    </select>
+</mapper> 

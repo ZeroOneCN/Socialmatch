@@ -1,0 +1,50 @@
+/* 主题色变量 */
+$primary-color: #409EFF;
+$success-color: #67C23A;
+$warning-color: #E6A23C;
+$danger-color: #F56C6C;
+$info-color: #909399;
+
+/* 边框颜色 */
+$border-color-light: #EBEEF5;
+$border-color-lighter: #F2F6FC;
+$border-color-dark: #DCDFE6;
+
+/* 文字颜色 */
+$text-color-primary: #303133;
+$text-color-regular: #606266;
+$text-color-secondary: #909399;
+$text-color-placeholder: #C0C4CC;
+
+/* 背景颜色 */
+$background-color-base: #F5F7FA;
+$background-color-light: #FFFFFF;
+$background-color-dark: #F0F2F5;
+
+/* 布局相关变量 */
+$header-height: 60px;
+$sidebar-width: 200px;
+$sidebar-collapsed-width: 64px;
+
+/* 响应式断点 */
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+$screen-xl: 1600px;
+
+/* 阴影 */
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+$box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$box-shadow-dark: 0 2px 16px 0 rgba(0, 0, 0, 0.2);
+
+/* 动画时间 */
+$animation-duration-slow: 0.3s;
+$animation-duration-base: 0.2s;
+$animation-duration-fast: 0.1s;
+
+/* 圆角 */
+$border-radius-base: 4px;
+$border-radius-small: 2px;
+$border-radius-large: 8px;
+$border-radius-circle: 50%; 
