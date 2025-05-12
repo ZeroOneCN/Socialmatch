@@ -123,44 +123,6 @@ const formData = ref({
   nickname: ''
 });
 
-// 加载安全设置
-const loadSecuritySettings = async () => {
-  try {
-    const response = await authApi.getSecuritySettings();
-    if (response.code === 200 && response.data) {
-      securitySettings.value = response.data;
-      updatePasswordRequirements();
-    }
-  } catch (error) {
-    console.error('获取安全设置失败:', error);
-  }
-};
-
-// 更新密码要求描述
-const updatePasswordRequirements = () => {
-  let requirements = `密码至少需要${securitySettings.value.passwordMinLength}位，且必须包含：`;
-  const strengthMap = {
-    lowercase: '小写字母',
-    uppercase: '大写字母',
-    number: '数字',
-    special: '特殊字符'
-  };
-  
-  const requiredTypes = Array.isArray(securitySettings.value.passwordStrength) 
-    ? securitySettings.value.passwordStrength 
-    : [];
-    
-  const requirementTexts = requiredTypes.map(type => strengthMap[type] || type);
-  
-  if (requirementTexts.length > 0) {
-    requirements += requirementTexts.join('、');
-  } else {
-    requirements = `密码至少需要${securitySettings.value.passwordMinLength}位`;
-  }
-  
-  passwordRequirements.value = requirements;
-};
-
 // 检查密码是否满足要求
 const validatePassword = (password) => {
   if (!password) return false;
@@ -187,10 +149,56 @@ const validatePassword = (password) => {
   return requiredStrength.every(requirement => strengthChecks[requirement]);
 };
 
+// 更新密码要求描述
+const updatePasswordRequirements = () => {
+  let requirements = `密码至少需要${securitySettings.value.passwordMinLength}位`;
+  const strengthMap = {
+    lowercase: '小写字母',
+    uppercase: '大写字母',
+    number: '数字',
+    special: '特殊字符'
+  };
+  
+  const requiredTypes = Array.isArray(securitySettings.value.passwordStrength) 
+    ? securitySettings.value.passwordStrength 
+    : [];
+    
+  if (requiredTypes.length > 0) {
+    requirements += '，且必须包含：';
+    const requirementTexts = requiredTypes.map(type => strengthMap[type] || type);
+    requirements += requirementTexts.join('、');
+  }
+  
+  passwordRequirements.value = requirements;
+};
+
 // 初始化加载安全设置
-onMounted(() => {
-  loadSecuritySettings();
+onMounted(async () => {
+  await loadSecuritySettings();
 });
+
+// 加载安全设置
+const loadSecuritySettings = async () => {
+  try {
+    const response = await authApi.getSecuritySettings();
+    if (response.code === 200 && response.data) {
+      // 确保数据类型正确
+      securitySettings.value = {
+        ...securitySettings.value,
+        ...response.data,
+        passwordMinLength: parseInt(response.data.passwordMinLength) || 8,
+        passwordStrength: Array.isArray(response.data.passwordStrength) 
+          ? response.data.passwordStrength 
+          : ['lowercase', 'number']
+      };
+      updatePasswordRequirements();
+    }
+  } catch (error) {
+    console.error('获取安全设置失败:', error);
+    // 使用默认值
+    updatePasswordRequirements();
+  }
+};
 
 // 返回上一页
 const goBack = () => {
@@ -210,23 +218,22 @@ const onSubmit = async () => {
   loading.value = true;
   try {
     // 注册
-    const response = await authApi.register(formData.value);
-    showSuccessToast('注册成功');
+    const registerResponse = await userStore.register(formData.value);
     
-    // 自动登录
-    const loginResponse = await authApi.login({
-      username: formData.value.username,
-      password: formData.value.password
-    });
-    
-    // 保存登录状态，这里使用 login 方法替代 setLoginState
-    await userStore.login({
-      username: formData.value.username,
-      password: formData.value.password
-    });
-    
-    // 跳转到首页
-    router.replace('/');
+    if (registerResponse.code === 200) {
+      showSuccessToast('注册成功');
+      
+      // 注册成功后自动登录
+      await userStore.login({
+        username: formData.value.username,
+        password: formData.value.password
+      });
+      
+      // 跳转到首页
+      router.replace('/');
+    } else {
+      showToast(registerResponse.message || '注册失败，请稍后重试');
+    }
   } catch (error) {
     console.error('注册失败:', error);
     showToast(error.response?.data?.message || '注册失败，请稍后重试');

@@ -918,8 +918,8 @@ const getCurrentLocation = async () => {
     formData.value.cityCode = locationInfo.city ? locationInfo.city.replace(/市/g, '') : ''
     
     showSuccessToast('位置获取成功')
-  } catch (error) {
-    console.error('获取位置失败:', error)
+          } catch (error) {
+          console.error('获取位置失败:', error)
     showToast('获取位置失败，请稍后重试')
   } finally {
     isLocating.value = false

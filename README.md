@@ -4,7 +4,7 @@
 
 ## 📋 项目概述
 
-Social 是一个完整的社交应用系统，包含以下三个主要组件：
+Social 是一款基于SpringBoot+Vue3的社交匹配应用，包含以下三个主要组件：
 
 1. **Social-App** 📱 - 基于 Vue 3 和 Vant UI 开发的移动端应用
 2. **Social-Admin** 💼 - 基于 Vue 3 和 Element Plus 开发的管理后台
@@ -108,16 +108,16 @@ Social/
 ## 📸 系统截图
 
 ### 移动端
-![登录页面](./docs/images/app-login.png)
-![个人中心](./docs/images/app-profile.png)
-![消息列表](./docs/images/app-messages.png)
-![动态页面](./docs/images/app-moments.png)
+![登录页面](./docs/images/1-登录页面.png)
+![个人中心](./docs/images/2-个人中心.png)
+![消息列表](./docs/images/3-消息列表.png)
+![动态页面](./docs/images/4-动态列表.png)
 
 ### 管理后台
-![登录页面](./docs/images/admin-login.png)
-![用户管理](./docs/images/admin-users.png)
-![内容审核](./docs/images/admin-content.png)
-![数据统计](./docs/images/admin-stats.png)
+![登录页面](./docs/images/1-后台登录页面.png)
+![用户管理](./docs/images/2-后台用户管理.png)
+![内容审核](./docs/images/3-后台动态审核.png)
+![数据统计](./docs/images/4-后台数据统计.png)
 
 ## 📄 许可证
 

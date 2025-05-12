@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -64,14 +65,25 @@ public class SecuritySettingsManager {
                         // 根据值类型转换
                         if ("passwordStrength".equals(key)) {
                             try {
-                                // 转换为列表
-                                List<String> list = objectMapper.readValue(value, new TypeReference<List<String>>() {});
-                                securitySettings.put(key, list);
-                            } catch (JsonProcessingException e) {
+                                // 尝试解析JSON数组
+                                if (value.contains("[") && value.contains("]")) {
+                                    // 清理格式
+                                    value = value.replace(" ", "")  // 移除空格
+                                                 .replace("[", "")  // 移除方括号
+                                                 .replace("]", ""); // 移除方括号
+                                    
+                                    // 分割并转换为列表
+                                    List<String> strengthList = Arrays.asList(value.split(","));
+                                    securitySettings.put(key, strengthList);
+                                } else {
+                                    // 单个值
+                                    securitySettings.put(key, Collections.singletonList(value));
+                                }
+                            } catch (Exception e) {
                                 log.error("解析passwordStrength失败", e);
                                 securitySettings.put(key, Arrays.asList("lowercase", "number"));
                             }
-                        } else if ("passwordMinLength".equals(key) || 
+                        } else if ("passwordMinLength".equals(key) ||
                                 "passwordExpireDays".equals(key) ||
                                 "maxLoginAttempts".equals(key) ||
                                 "accountLockTime".equals(key) ||

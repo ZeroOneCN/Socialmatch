@@ -85,10 +85,21 @@ export function resetPassword(data) {
   })
 }
 
+/**
+ * 获取安全设置
+ * @returns {Promise<Object>} 安全设置信息
+ */
+export function getSecuritySettings() {
+  return service({
+    url: '/api/system/settings/security',
+    method: 'get'
+  })
+}
+
 export default {
   login,
   register,
   logout,
   sendVerificationCode,
-  resetPassword
+  getSecuritySettings
 } 

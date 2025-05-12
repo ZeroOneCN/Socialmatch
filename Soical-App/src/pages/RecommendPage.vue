@@ -138,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onActivated, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { useMatchStore } from '../stores/match'
@@ -213,17 +213,43 @@ const isInterestSelected = (interest) => {
 const fetchRecommendedUsers = async (forceRefresh = false) => {
   if (!isLoggedIn.value) return Promise.reject(new Error('未登录'));
   
-  console.log('RecommendPage调用fetchRecommendedUsers, 强制刷新:', forceRefresh);
+  console.log('[页面] 开始获取推荐用户, 强制刷新:', forceRefresh);
   try {
+    // 显示加载提示
+    showLoadingToast({
+      message: '正在获取推荐...',
+      forbidClick: true,
+      duration: 0
+    });
+
     await matchStore.fetchRecommendedUsers(forceRefresh);
     
-    console.log('获取推荐用户后的列表状态:', recommendedUsers.value.length);
+    console.log('[页面] 获取推荐用户后的列表状态:', recommendedUsers.value.length);
+    
+    // 检查推荐列表状态
     if (recommendedUsers.value.length === 0) {
-      showToast('暂无推荐用户');
+      // 如果有筛选条件但没有结果，尝试重置筛选条件
+      const hasFilters = Object.values(matchStore.filters).some(value => value !== null && value !== '');
+      if (hasFilters) {
+        console.log('[页面] 检测到筛选条件但无结果，尝试重置筛选');
+        matchStore.resetFilters();
+        // 重新获取，但不显示无推荐提示
+        await matchStore.fetchRecommendedUsers(true);
+        
+        if (recommendedUsers.value.length === 0) {
+          showToast('未找到符合条件的推荐用户');
+        }
+      } else {
+        showToast('暂无推荐用户');
+      }
     }
+    
+    closeToast();
     return Promise.resolve(recommendedUsers.value);
   } catch (error) {
-    console.error('获取推荐用户失败:', error);
+    console.error('[页面] 获取推荐用户失败:', error);
+    closeToast();
+    showToast('获取推荐失败，请稍后重试');
     return Promise.reject(error);
   }
 }
@@ -286,42 +312,47 @@ const handleDislike = async (user) => {
 }
 
 // 处理推荐列表空的情况
-const handleEmpty = () => {
+const handleEmpty = async () => {
   console.log('[页面] 推荐列表为空，尝试重新获取');
-  showLoadingToast({
-    message: '正在加载更多推荐...',
-    forbidClick: true,
-    duration: 0
-  })
   
-  // 重置当前筛选条件，以便获取更多推荐
-  const currentFilters = { ...matchStore.filters };
-  console.log('[页面] 当前筛选条件:', currentFilters);
-  
-  // 如果有严格的筛选条件（比如位置、性别等）但没有结果，尝试放宽一些
-  if (recommendedUsers.value.length === 0 && 
-     (currentFilters.gender || currentFilters.location || currentFilters.interests)) {
-    console.log('[页面] 检测到严格筛选条件但无结果，尝试放宽筛选');
-    // 只保留性别筛选，清除位置和兴趣限制
-    matchStore.updateFilters({ gender: currentFilters.gender });
-    showToast('已放宽筛选条件，尝试获取更多推荐');
-  }
-  
-  // 尝试重新加载推荐列表，强制刷新
-  fetchRecommendedUsers(true)
-    .then(() => {
-      closeToast();
-      if (recommendedUsers.value.length === 0) {
-        showToast('暂无推荐用户，请稍后再试');
-      } else {
-        console.log('[页面] 成功获取新推荐，数量:', recommendedUsers.value.length);
-      }
-    })
-    .catch(error => {
-      closeToast();
-      console.error('[页面] 重新获取推荐失败:', error);
-      showToast('获取推荐失败，请稍后再试');
+  try {
+    showLoadingToast({
+      message: '正在加载更多推荐...',
+      forbidClick: true,
+      duration: 0
     });
+    
+    // 重置当前筛选条件，以便获取更多推荐
+    const currentFilters = { ...matchStore.filters };
+    console.log('[页面] 当前筛选条件:', currentFilters);
+    
+    // 如果有任何筛选条件，先尝试重置它们
+    if (Object.values(currentFilters).some(value => value !== null && value !== '')) {
+      console.log('[页面] 检测到筛选条件，尝试重置');
+      matchStore.resetFilters();
+      await fetchRecommendedUsers(true);
+      
+      if (recommendedUsers.value.length > 0) {
+        closeToast();
+        showToast('已重置筛选条件并获取新推荐');
+        return;
+      }
+    }
+    
+    // 如果重置筛选条件后仍然没有推荐，尝试强制刷新
+    await fetchRecommendedUsers(true);
+    closeToast();
+    
+    if (recommendedUsers.value.length === 0) {
+      showToast('暂无更多推荐用户，请稍后再试');
+    } else {
+      console.log('[页面] 成功获取新推荐，数量:', recommendedUsers.value.length);
+    }
+  } catch (error) {
+    closeToast();
+    console.error('[页面] 重新获取推荐失败:', error);
+    showToast('获取推荐失败，请稍后再试');
+  }
 }
 
 // 跳转到登录页
@@ -518,12 +549,45 @@ const resetFilters = () => {
   });
 }
 
-// 页面加载时获取推荐用户
+// 页面加载和激活时的处理
 onMounted(() => {
   if (isLoggedIn.value) {
-    fetchRecommendedUsers()
+    console.log('[页面] 页面挂载，开始获取推荐');
+    fetchRecommendedUsers(true);
   }
-})
+});
+
+onActivated(() => {
+  if (isLoggedIn.value) {
+    console.log('[页面] 页面激活，检查是否需要刷新');
+    const lastUpdateTime = matchStore.lastUpdateTime || 0;
+    const now = Date.now();
+    if (recommendedUsers.value.length === 0 || (now - lastUpdateTime) > 5 * 60 * 1000) {
+      console.log('[页面] 需要刷新推荐列表');
+      fetchRecommendedUsers(true);
+    }
+  }
+});
+
+// 定时刷新推荐列表
+let refreshInterval;
+onMounted(() => {
+  if (isLoggedIn.value) {
+    // 设置定时刷新
+    refreshInterval = setInterval(() => {
+      if (isLoggedIn.value) {
+        console.log('[页面] 定时刷新推荐列表');
+        fetchRecommendedUsers(true);
+      }
+    }, 15 * 60 * 1000); // 15分钟刷新一次
+  }
+});
+
+onBeforeUnmount(() => {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+  }
+});
 </script>
 
 <style scoped>

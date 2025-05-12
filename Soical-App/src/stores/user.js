@@ -178,7 +178,14 @@ export const useUserStore = defineStore('user', {
         console.log('注册开始, 用户数据:', userData)
         const response = await register(userData)
         console.log('注册响应:', response)
-        return Promise.resolve(response)
+        
+        if (response.code === 200) {
+          console.log('注册成功')
+          return response
+        } else {
+          console.error('注册失败:', response.message)
+          return Promise.reject(new Error(response.message || '注册失败'))
+        }
       } catch (error) {
         console.error('注册失败:', error)
         return Promise.reject(error)

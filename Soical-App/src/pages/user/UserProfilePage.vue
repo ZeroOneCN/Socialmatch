@@ -183,6 +183,84 @@ const userPosts = ref([]);
 const isFollowing = ref(false);
 const followLoading = ref(false);
 
+// 获取用户资料
+const fetchUserProfile = async () => {
+  if (!userId.value) return;
+  
+  loading.value = true;
+  try {
+    // 先重置数据，避免显示旧数据
+    userProfile.value = null;
+    userStats.value = { posts: 0, followers: 0, following: 0 };
+    userPosts.value = [];
+    isFollowing.value = false;
+
+    // 获取用户基本信息
+    const profileResponse = await userApi.getUserProfile(userId.value);
+    if (profileResponse?.code === 200 && profileResponse.data) {
+      userProfile.value = profileResponse.data;
+      
+      // 获取认证状态
+      try {
+        const { checkUserVerified } = await import('../../api/verification');
+        
+        // 获取身份认证状态
+        const identityResponse = await checkUserVerified(userId.value, 'identity');
+        if (identityResponse?.data) {
+          if (!userProfile.value.verifications) {
+            userProfile.value.verifications = {};
+          }
+          userProfile.value.verifications.identityStatus = identityResponse.data.status;
+        }
+        
+        // 获取教育认证状态
+        const educationResponse = await checkUserVerified(userId.value, 'education');
+        if (educationResponse?.data) {
+          if (!userProfile.value.verifications) {
+            userProfile.value.verifications = {};
+          }
+          userProfile.value.verifications.educationStatus = educationResponse.data.status;
+        }
+      } catch (verificationError) {
+        console.error('获取认证状态失败', verificationError);
+      }
+    } else {
+      throw new Error(profileResponse?.message || '获取用户资料失败');
+    }
+    
+    // 获取用户统计数据
+    const statsResponse = await userApi.getUserStats(userId.value);
+    if (statsResponse?.code === 200 && statsResponse.data) {
+      userStats.value = {
+        ...userStats.value,
+        ...statsResponse.data
+      };
+    }
+    
+    // 获取用户最新动态
+    const postsResponse = await postApi.getUserPosts(userId.value, {
+      page: 1,
+      pageSize: 3
+    });
+    if (postsResponse?.code === 200 && postsResponse.data?.records) {
+      userPosts.value = postsResponse.data.records;
+    }
+    
+    // 如果不是当前用户，检查是否已关注
+    if (userId.value !== currentUserId.value) {
+      const followResponse = await followApi.checkFollowStatus(userId.value);
+      if (followResponse?.code === 200) {
+        isFollowing.value = followResponse.data;
+      }
+    }
+  } catch (error) {
+    console.error('获取用户资料失败:', error);
+    showToast('获取用户资料失败');
+  } finally {
+    loading.value = false;
+  }
+};
+
 // 将爱好字符串拆分为标签列表
 const hobbiesList = computed(() => {
   if (!userProfile.value?.hobbies) return [];
@@ -244,193 +322,56 @@ watch(() => route.params.id, (newId, oldId) => {
   }
 }, { immediate: true });
 
-// 获取用户资料
-const fetchUserProfile = async () => {
-  if (!userId.value) return;
-  
-  loading.value = true;
-  try {
-    // 先清除之前的数据，避免显示旧数据
-    userProfile.value = null;
-    userStats.value = { posts: 0, followers: 0, following: 0 };
-    userPosts.value = [];
-    isFollowing.value = false;
-    
-    const response = await userApi.getUserProfile(userId.value);
-    if (response.data) {
-      userProfile.value = response.data;
-      
-      // 获取认证状态
-      try {
-        const { checkUserVerified } = await import('../../api/verification');
-        
-        // 获取身份认证状态
-        const identityResponse = await checkUserVerified(userId.value, 'identity');
-        if (identityResponse.data) {
-          if (!userProfile.value.verifications) {
-            userProfile.value.verifications = {};
-          }
-          userProfile.value.verifications.identityStatus = identityResponse.data.status;
-        }
-        
-        // 获取教育认证状态
-        const educationResponse = await checkUserVerified(userId.value, 'education');
-        if (educationResponse.data) {
-          if (!userProfile.value.verifications) {
-            userProfile.value.verifications = {};
-          }
-          userProfile.value.verifications.educationStatus = educationResponse.data.status;
-        }
-      } catch (verificationError) {
-        console.error('获取认证状态失败', verificationError);
-      }
-      
-      // 获取用户统计数据
-      await fetchUserStats();
-      
-      // 获取用户动态
-      await fetchUserPosts();
-      
-      // 获取关注状态
-      if (userId.value !== currentUserId.value) {
-        await checkFollowStatus();
-      }
-    }
-  } catch (error) {
-    console.error('获取用户资料失败', error);
-    showToast('获取用户资料失败');
-  } finally {
-    loading.value = false;
-  }
-};
-
-// 获取用户统计数据
-const fetchUserStats = async () => {
-  try {
-    console.log('正在获取用户统计数据:', userId.value);
-    const response = await userApi.getUserStats(userId.value);
-    console.log('获取到的统计数据:', response);
-    userStats.value = response.data || { posts: 0, followers: 0, following: 0 };
-  } catch (error) {
-    console.error('获取用户统计数据失败', error);
-  }
-};
-
-// 获取用户动态
-const fetchUserPosts = async () => {
-  try {
-    const params = { page: 1, pageSize: 3 };
-    const response = await postApi.getUserPosts(userId.value, params);
-    userPosts.value = response.data.records || [];
-  } catch (error) {
-    console.error('获取用户动态失败', error);
-  }
-};
-
-// 检查关注状态
-const checkFollowStatus = async () => {
-  try {
-    const response = await followApi.checkFollowStatus(userId.value);
-    isFollowing.value = response.data;
-  } catch (error) {
-    console.error('获取关注状态失败', error);
-  }
-};
-
-// 切换关注状态
+// 关注/取消关注
 const toggleFollow = async () => {
   if (followLoading.value) return;
   
   followLoading.value = true;
   try {
-    let result;
-    if (isFollowing.value) {
-      result = await followApi.unfollowUser(userId.value);
-      showSuccessToast('已取消关注');
+    const response = await (isFollowing.value 
+      ? followApi.unfollowUser(userId.value)
+      : followApi.followUser(userId.value));
       
-      // 取消关注时减少粉丝数
-      if (userStats.value.followers > 0) {
-        userStats.value.followers--;
+    if (response.code === 200) {
+      isFollowing.value = !isFollowing.value;
+      // 更新统计数据
+      const newStats = { ...userStats.value };
+      if (isFollowing.value) {
+        newStats.followers++;
+      } else {
+        newStats.followers = Math.max(0, newStats.followers - 1);
       }
+      userStats.value = newStats;
+      
+      showSuccessToast(isFollowing.value ? '关注成功' : '已取消关注');
     } else {
-      result = await followApi.followUser(userId.value);
-      showSuccessToast('关注成功');
-      
-      // 关注时增加粉丝数
-      userStats.value.followers++;
+      throw new Error(response.message);
     }
-    
-    console.log('关注/取消关注操作结果:', result);
-    
-    // 更新关注状态
-    isFollowing.value = !isFollowing.value;
-    
-    // 强制重新获取统计数据，确保与服务器同步
-    setTimeout(async () => {
-      try {
-        const response = await userApi.getUserStats(userId.value);
-        console.log('重新获取的统计数据:', response);
-        
-        if (response && response.data) {
-          userStats.value = response.data;
-        }
-      } catch (error) {
-        console.error('重新获取统计数据失败:', error);
-      }
-    }, 500);
   } catch (error) {
-    console.error('操作失败', error);
-    showToast('操作失败，请稍后再试');
+    console.error('操作失败:', error);
+    showToast(error.message || '操作失败');
   } finally {
     followLoading.value = false;
   }
 };
 
-// 处理点赞
-const handleLike = (post) => {
+// 页面跳转方法
+const goBack = () => router.back();
+const goToUserPosts = () => router.push(`/user/${userId.value}/posts`);
+const goToFollowers = () => router.push(`/user/${userId.value}/followers`);
+const goToFollowing = () => router.push(`/user/${userId.value}/following`);
+
+// 动态交互方法
+const handleLike = async (postId) => {
   // 实现点赞逻辑
 };
 
-// 处理评论
-const handleComment = (post) => {
-  router.push(`/post/${post.id}`);
+const handleComment = (postId) => {
+  router.push(`/post/${postId}`);
 };
 
-// 处理分享
 const handleShare = (post) => {
   // 实现分享逻辑
-};
-
-// 返回上一页
-const goBack = () => {
-  router.back();
-};
-
-// 前往用户动态页
-const goToUserPosts = () => {
-  router.push(`/user/${userId.value}/posts`);
-};
-
-// 前往关注列表页
-const goToFollowing = () => {
-  console.log(`跳转到关注列表，用户ID: ${userId.value}`);
-  if (!userId.value) {
-    console.error('用户ID为空，无法跳转');
-    showToast('数据错误，请重试');
-    return;
-  }
-  router.push(`/user/profile/${userId.value}/following`);
-};
-
-// 前往粉丝列表页
-const goToFollowers = () => {
-  console.log(`跳转到粉丝列表，用户ID: ${userId.value}`);
-  if (!userId.value) {
-    console.error('用户ID为空，无法跳转');
-    showToast('数据错误，请重试');
-    return;
-  }
-  router.push(`/user/profile/${userId.value}/followers`);
 };
 </script>
 

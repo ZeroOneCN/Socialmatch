@@ -35,87 +35,69 @@ export const useMatchStore = defineStore('match', () => {
     })
     
     try {
-      // 构建筛选参数，清除null和undefined值
+      // 添加时间戳防止缓存
+      const timestamp = new Date().getTime()
       const params = {
-        limit: 30 // 设置为30个推荐
+        ...filters.value,
+        _t: timestamp,
+        forceRefresh: forceRefresh,
+        limit: 30 // 设置默认获取数量
       }
       
-      // 性别筛选 - 需要确保值是正确的数字类型
-      if (filters.value.gender !== null && filters.value.gender !== undefined) {
-        // 确保性别是数字类型(1-男，2-女)
-        const genderValue = Number(filters.value.gender);
-        if (!isNaN(genderValue)) {
-          params.gender = genderValue;
-          console.log('[store] 应用性别筛选:', genderValue);
-        }
-      }
+      // 打印请求参数
+      console.log('[store] 获取推荐用户请求参数:', params)
       
-      // 位置筛选 - 确保不是空字符串
-      if (filters.value.location && typeof filters.value.location === 'string' && filters.value.location.trim() !== '') {
-        params.location = filters.value.location.trim();
-        console.log('[store] 应用位置筛选:', params.location);
-      }
+      const response = await getRecommendedUsers(params)
+      console.log('[store] 获取推荐用户响应:', response)
       
-      // 兴趣标签筛选 - 确保不是空字符串
-      if (filters.value.interests && typeof filters.value.interests === 'string' && filters.value.interests.trim() !== '') {
-        params.interests = filters.value.interests.trim();
-        console.log('[store] 应用兴趣标签筛选:', params.interests);
-      }
-      
-      console.log('[store] 请求推荐用户参数:', JSON.stringify(params));
-      
-      const response = await getRecommendedUsers(params);
-      console.log('[store] 推荐API响应状态:', response.code);
-      
-      // 处理响应数据
-      if (response && response.data) {
-        const users = response.data;
-        
-        if (Array.isArray(users)) {
-          // 记录原始列表
-          const originalList = [...recommendedUsers.value];
-          console.log(`[store] 现有列表数量: ${originalList.length}, 新接收数量: ${users.length}`);
-          
-          if (users.length === 0) {
-            hasMore.value = false;
-            if (recommendedUsers.value.length === 0) {
-              showToast('没有符合条件的用户，请尝试调整筛选条件');
-            } else {
-              showToast('暂无更多推荐');
-            }
+      if (response && response.code === 0) {
+        if (Array.isArray(response.data)) {
+          if (forceRefresh) {
+            recommendedUsers.value = response.data
           } else {
-            // 过滤掉重复用户
-            const existingUserIds = new Set(recommendedUsers.value.map(u => u.userId));
-            const newUsers = users.filter(newUser => !existingUserIds.has(newUser.userId));
-            
-            if (newUsers.length > 0) {
-              // 保留原有用户并添加新用户（不同于之前完全替换的方式）
-              recommendedUsers.value = [...originalList, ...newUsers];
-              console.log(`[store] 添加${newUsers.length}个新推荐用户，总计${recommendedUsers.value.length}个`);
-            } else {
-              hasMore.value = false;
-              // 如果没有新用户但有现有用户，不显示提示
-              if (recommendedUsers.value.length === 0) {
-                showToast('暂无推荐用户');
-              }
-            }
+            recommendedUsers.value = [...recommendedUsers.value, ...response.data]
           }
+          hasMore.value = response.data.length > 0
+          console.log('[store] 更新推荐用户列表成功，当前数量:', recommendedUsers.value.length)
         } else {
-          console.error('[store] 获取推荐用户返回格式错误:', users);
-          hasMore.value = false;
+          console.error('[store] 响应数据格式错误，期望数组但收到:', typeof response.data)
+          showToast('数据格式错误，请重试')
         }
+      } else if (response && response.code === 200) {
+        // 处理另一种可能的成功状态码
+        if (Array.isArray(response.data)) {
+          if (forceRefresh) {
+            recommendedUsers.value = response.data
+          } else {
+            recommendedUsers.value = [...recommendedUsers.value, ...response.data]
+          }
+          hasMore.value = response.data.length > 0
+          console.log('[store] 更新推荐用户列表成功(code=200)，当前数量:', recommendedUsers.value.length)
+        } else {
+          console.error('[store] 响应数据格式错误(code=200)，期望数组但收到:', typeof response.data)
+          showToast('数据格式错误，请重试')
+        }
+      } else if (Array.isArray(response)) {
+        // 直接处理数组响应
+        if (forceRefresh) {
+          recommendedUsers.value = response
+        } else {
+          recommendedUsers.value = [...recommendedUsers.value, ...response]
+        }
+        hasMore.value = response.length > 0
+        console.log('[store] 更新推荐用户列表成功(直接数组)，当前数量:', recommendedUsers.value.length)
       } else {
-        console.error('[store] API响应格式错误:', response);
-        hasMore.value = false;
-        showToast('获取推荐失败，请稍后重试');
+        console.error('[store] 获取推荐用户失败，响应:', response)
+        showToast('获取推荐失败，请重试')
+        hasMore.value = false
       }
     } catch (error) {
-      console.error('[store] 获取推荐用户失败:', error);
-      hasMore.value = false;
-      showToast('获取推荐失败，请稍后重试');
+      console.error('[store] 获取推荐用户出错:', error)
+      showToast('获取推荐失败，请重试')
+      hasMore.value = false
     } finally {
-      loading.value = false;
-      closeToast();
+      loading.value = false
+      closeToast()
     }
   }
   

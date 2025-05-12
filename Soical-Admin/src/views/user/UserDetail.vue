@@ -240,10 +240,16 @@ const fetchUserDetail = async () => {
   loading.value = true;
   try {
     const response = await userApi.getUserDetail(userId.value);
+    if (!response || response.code === 404) {
+      ElMessage.warning('用户不存在或已被删除');
+      userDetail.value = null;
+      return;
+    }
     userDetail.value = response;
   } catch (error) {
     console.error('获取用户详情失败', error);
-    ElMessage.error('获取用户详情失败');
+    ElMessage.warning(error.message || '获取用户详情失败');
+    userDetail.value = null;
   } finally {
     loading.value = false;
   }

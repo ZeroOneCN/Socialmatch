@@ -95,7 +95,7 @@ const onLoad = async () => {
         avatar: user.avatar || '/avatar-placeholder.png',
         selfIntro: user.selfIntro || '这个人很懒，什么都没写~',
         isFollowing: true, // 关注列表中的用户必然是已关注的
-        followLoading: false
+      followLoading: false
       };
     });
     

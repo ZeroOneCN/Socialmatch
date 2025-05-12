@@ -326,10 +326,31 @@ const fetchPostDetail = async () => {
   try {
     const res = await getPostDetail(postId)
     post.value = res
+    
+    // 修改用户信息判断逻辑
+    if (!post.value.userId) {
+      post.value.username = '已删除用户'
+      post.value.nickname = '已删除用户'
+      post.value.avatar = '/default-avatar.png'
+    } else {
+      // 确保显示昵称
+      post.value.nickname = post.value.nickname || post.value.username
+    }
+    
+    // 处理原始动态的用户信息（如果是转发的动态）
+    if (post.value.isShared && post.value.originalPost) {
+      if (!post.value.originalPost.userId) {
+        post.value.originalPost.username = '已删除用户'
+        post.value.originalPost.nickname = '已删除用户'
+      } else {
+        post.value.originalPost.nickname = post.value.originalPost.nickname || post.value.originalPost.username
+      }
+    }
+    
     console.log('获取到的动态详情:', res)
   } catch (error) {
     console.error('获取动态详情失败:', error)
-    ElMessage.error('获取动态详情失败')
+    ElMessage.error(error.message || '获取动态详情失败')
   } finally {
     loading.value = false
   }
@@ -345,7 +366,16 @@ const fetchComments = async () => {
       pageSize: pageSize.value
     })
     if (res && res.records) {
-      comments.value = res.records
+      // 处理评论列表中的用户信息
+      comments.value = res.records.map(comment => {
+        if (!comment.userId) {
+          comment.username = '已删除用户'
+          comment.nickname = '已删除用户'
+        } else {
+          comment.nickname = comment.nickname || comment.username
+        }
+        return comment
+      })
       total.value = res.total
       console.log('获取到的评论列表:', res.records)
     } else {

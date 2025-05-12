@@ -238,8 +238,17 @@ const fetchAiSettings = async () => {
 // 获取聊天历史
 const fetchChatHistory = async () => {
   try {
-    // 修正API路径，移除重复的/api前缀
-    const response = await request.get('/ai/history');
+    // 确保用户已登录并获取用户ID
+    const currentUserId = userStore.userId;
+    if (!currentUserId) {
+      chatHistory.value = [];
+      return;
+    }
+
+    // 修正API路径，添加用户ID参数
+    const response = await request.get('/ai/history', {
+      params: { userId: currentUserId }
+    });
     console.log('聊天历史响应:', response);
     
     if (response.code === 0 && response.data) {
@@ -251,13 +260,14 @@ const fetchChatHistory = async () => {
       scrollToBottom();
     }
     else if (Array.isArray(response)) {
-      // 如果直接返回数组
       chatHistory.value = response;
       scrollToBottom();
     }
   } catch (error) {
     console.error('获取聊天历史失败:', error);
     showToast('获取聊天历史失败');
+    // 出错时清空聊天历史
+    chatHistory.value = [];
   }
 };
 
@@ -397,6 +407,18 @@ watch(chatHistory, () => {
   nextTick(() => {
     scrollToBottom();
   });
+});
+
+// 监听用户登录状态变化
+watch(() => userStore.userId, (newUserId, oldUserId) => {
+  if (newUserId !== oldUserId) {
+    // 用户ID变化时清空聊天历史
+    chatHistory.value = [];
+    if (newUserId) {
+      // 如果是新用户登录，重新获取聊天历史
+      fetchChatHistory();
+    }
+  }
 });
 
 // 生命周期钩子

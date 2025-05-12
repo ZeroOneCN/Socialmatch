@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 /**
  * 系统设置控制器
@@ -31,8 +33,43 @@ public class SystemController {
      */
     @GetMapping("/settings/security")
     @ApiOperation("获取安全设置")
-    public Result<Map<String, String>> getSecuritySettings() {
-        Map<String, String> data = systemSettingsService.getSettingsMapByGroup("security");
+    public Result<Map<String, Object>> getSecuritySettings() {
+        Map<String, String> rawData = systemSettingsService.getSettingsMapByGroup("security");
+        Map<String, Object> data = new HashMap<>();
+        
+        // 转换数据类型
+        for (Map.Entry<String, String> entry : rawData.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            
+            if ("passwordMinLength".equals(key) ||
+                "passwordExpireDays".equals(key) ||
+                "maxLoginAttempts".equals(key) ||
+                "accountLockTime".equals(key) ||
+                "sessionTimeout".equals(key)) {
+                try {
+                    data.put(key, Integer.parseInt(value));
+                } catch (NumberFormatException e) {
+                    data.put(key, 0);
+                }
+            } else if ("enableCaptcha".equals(key)) {
+                data.put(key, Boolean.parseBoolean(value));
+            } else if ("passwordStrength".equals(key)) {
+                if (value != null) {
+                    // 清理并解析密码强度设置
+                    String cleanValue = value.replace(" ", "")
+                                           .replace("[", "")
+                                           .replace("]", "");
+                    List<String> strengthList = Arrays.asList(cleanValue.split(","));
+                    data.put(key, strengthList);
+                } else {
+                    data.put(key, Arrays.asList("lowercase", "number"));
+                }
+            } else {
+                data.put(key, value);
+            }
+        }
+        
         return Result.ok(data);
     }
 
@@ -42,20 +79,32 @@ public class SystemController {
     @PostMapping("/settings/security")
     @ApiOperation("更新安全设置")
     public Result<String> updateSecuritySettings(@RequestBody SystemSecuritySettingsDTO settings) {
-        // 将DTO转换为Map
         Map<String, String> securitySettings = new HashMap<>();
+        
         if (settings.getPasswordMinLength() != null) 
             securitySettings.put("passwordMinLength", settings.getPasswordMinLength().toString());
-        if (settings.getPasswordStrength() != null) 
-            securitySettings.put("passwordStrength", settings.getPasswordStrength().toString());
+            
+        if (settings.getPasswordStrength() != null) {
+            // 确保正确的JSON格式
+            String strengthJson = settings.getPasswordStrength().toString()
+                                        .replace("[", "")
+                                        .replace("]", "")
+                                        .replace(" ", "");
+            securitySettings.put("passwordStrength", "[" + strengthJson + "]");
+        }
+        
         if (settings.getPasswordExpireDays() != null) 
             securitySettings.put("passwordExpireDays", settings.getPasswordExpireDays().toString());
+            
         if (settings.getMaxLoginAttempts() != null) 
             securitySettings.put("maxLoginAttempts", settings.getMaxLoginAttempts().toString());
+            
         if (settings.getAccountLockTime() != null) 
             securitySettings.put("accountLockTime", settings.getAccountLockTime().toString());
+            
         if (settings.getEnableCaptcha() != null) 
             securitySettings.put("enableCaptcha", settings.getEnableCaptcha().toString());
+            
         if (settings.getSessionTimeout() != null) 
             securitySettings.put("sessionTimeout", settings.getSessionTimeout().toString());
         

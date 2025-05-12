@@ -101,18 +101,18 @@
         <el-table-column label="统计" width="220">
           <template #default="scope">
             <div class="post-stats">
-              <div class="stat-item">
-                <el-icon><Star /></el-icon>
+                <div class="stat-item">
+                  <el-icon><Star /></el-icon>
                 <span>点赞 {{ scope.row.likeCount }}</span>
-              </div>
-              <div class="stat-item">
-                <el-icon><ChatLineRound /></el-icon>
+                </div>
+                <div class="stat-item">
+                  <el-icon><ChatLineRound /></el-icon>
                 <span>评论 {{ scope.row.commentCount }}</span>
-              </div>
-              <div class="stat-item">
-                <el-icon><Share /></el-icon>
+                </div>
+                <div class="stat-item">
+                  <el-icon><Share /></el-icon>
                 <span>分享 {{ scope.row.shareCount }}</span>
-              </div>
+                </div>
             </div>
           </template>
         </el-table-column>

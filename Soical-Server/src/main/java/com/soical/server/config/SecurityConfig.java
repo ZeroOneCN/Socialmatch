@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/api/admin/login").permitAll() // 管理员登录接口放行
                         .antMatchers("/api/common/**").permitAll()
+                        .antMatchers("/api/system/settings/security").permitAll() // 放行安全设置获取接口
                         // 放行WebSocket端点
                         .antMatchers("/ws/chat").permitAll() // WebSocket端点允许所有访问，认证在WebSocketAuthInterceptor中进行
                         // 放行上传文件访问路径

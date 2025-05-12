@@ -454,9 +454,9 @@ const cardStyle = (index) => {
   
   // 只对前三张卡片应用动画效果
   if (index < 3) {
-    return {
-      transform: `scale(${1 - index * 0.05}) translateY(${-index * 10}px)`,
-      zIndex: 100 - index,
+  return {
+    transform: `scale(${1 - index * 0.05}) translateY(${-index * 10}px)`,
+    zIndex: 100 - index,
       opacity: Math.max(1 - index * 0.15, 0.6),
       willChange: 'transform'
     };
@@ -505,8 +505,8 @@ const startDrag = (event, index) => {
     document.addEventListener('touchend', endDrag);
     document.addEventListener('touchcancel', endDrag);
   } else {
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', endDrag);
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', endDrag);
   }
 };
 
@@ -516,15 +516,15 @@ const onDrag = (event) => {
   
   // 使用 requestAnimationFrame 优化性能
   requestAnimationFrame(() => {
-    let clientX, clientY;
-    if (event.touches) {
-      clientX = event.touches[0].clientX;
-      clientY = event.touches[0].clientY;
-    } else {
-      clientX = event.clientX;
-      clientY = event.clientY;
-    }
-    
+  let clientX, clientY;
+  if (event.touches) {
+    clientX = event.touches[0].clientX;
+    clientY = event.touches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+  
     const deltaX = clientX - dragStartX.value;
     const deltaY = clientY - dragStartY.value;
     
@@ -540,15 +540,15 @@ const onDrag = (event) => {
     
     dragX.value = deltaX;
     dragY.value = deltaY;
-    
-    // 根据水平位移判断状态
+  
+  // 根据水平位移判断状态
     if (deltaX > 100) {
-      dragStatus.value = 'like';
+    dragStatus.value = 'like';
     } else if (deltaX < -100) {
-      dragStatus.value = 'dislike';
-    } else {
-      dragStatus.value = null;
-    }
+    dragStatus.value = 'dislike';
+  } else {
+    dragStatus.value = null;
+  }
   });
 };
 
@@ -602,8 +602,8 @@ const likeCurrentUser = () => {
   // 确保状态被重置
   resetDragState();
   
-  // 移动到下一个用户
-  nextCard();
+    // 移动到下一个用户
+    nextCard();
 };
 
 // 不喜欢当前用户
@@ -619,8 +619,8 @@ const dislikeCurrentUser = () => {
   // 确保状态被重置
   resetDragState();
   
-  // 移动到下一个用户
-  nextCard();
+    // 移动到下一个用户
+    nextCard();
 };
 
 // 移动到下一张卡片
