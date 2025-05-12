@@ -64,9 +64,9 @@ Social/
 
 请参考各组件目录中的README文件，了解各组件的设置和启动方法：
 
-- [Soical-App README](./Soical-App/README.md)
-- [Soical-Admin README](./Soical-Admin/README.md)
-- [Soical-Server README](./Soical-Server/README.md)
+- [Social-App README](./Soical-App/README.md)
+- [Social-Admin README](./Soical-Admin/README.md)
+- [Social-Server README](./Soical-Server/README.md)
 
 ## 📝 部署步骤
 

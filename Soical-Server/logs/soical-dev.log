@@ -7625,3 +7625,237 @@ com.soical.server.common.BusinessException: 用户不存在
 2025-05-12 23:20:04.028  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
 2025-05-12 23:20:04.029  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
 2025-05-12 23:20:04.029 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:20:12.035  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:20:12.036  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:20:12.036 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:20:22.034  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:20:22.034  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:20:22.034 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:20:22.035  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:20:22.035  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:20:22.035 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:20:32.036  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:20:32.037  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:20:32.037 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:21:04.027  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:21:04.029  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:21:04.029 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:21:04.029  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:21:04.030  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:21:04.030 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:21:04.031  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:21:04.031  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:21:04.032 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:21:04.032  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:21:04.032  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:21:04.032 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:22:04.031  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:22:04.032  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:22:04.032  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:22:04.033  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:22:04.033 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:22:04.033 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:22:04.033  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:22:04.033  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:22:04.033 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:22:04.037  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:22:04.038  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:22:04.038 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:23:04.033  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:23:04.033  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:23:04.034  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:04.034 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:04.034  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:23:04.035 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:23:04.036  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:23:04.037  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:23:04.037 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:23:04.039  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:23:04.039  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:04.040 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:23.663  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:23:23.663  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:23.664 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:23.669  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:23:23.669  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:23.669 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:23.699 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : 处理请求: /api/chat/messages/13
+2025-05-12 23:23:23.699 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : JWT Token有效，用户/管理员ID: 42
+2025-05-12 23:23:23.700 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : 用户已认证，ID: 42
+2025-05-12 23:23:32.034  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:23:32.035  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:32.036 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:42.237  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:23:42.238  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:42.238 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:52.030  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:23:52.030  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:52.130 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:23:52.130  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:23:52.131  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:23:52.131 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:24:02.036  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:24:02.037  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:24:02.037 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:24:04.035  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:24:04.036  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:24:04.036 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:24:04.038  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:24:04.038  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:24:04.038 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:24:12.135  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:24:12.136  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:24:12.136 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:24:22.030  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:24:22.031  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:24:22.031 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:24:22.031  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:24:22.032  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:24:22.032 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:24:32.024  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:24:32.025  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:24:32.025 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:04.033  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:25:04.033  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:04.034 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:04.037  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:25:04.037  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:04.037 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:04.990  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:25:04.991  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:25:04.991 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:25:05.130  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:25:05.131  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:25:05.132 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:25:22.093  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:25:22.094  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:22.094 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:22.098  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:25:22.098  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:22.099 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:22.161 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.config.JwtAuthenticationFilter     : 处理请求: /api/chat/messages/13
+2025-05-12 23:25:22.161 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.config.JwtAuthenticationFilter     : JWT Token有效，用户/管理员ID: 42
+2025-05-12 23:25:22.161 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.config.JwtAuthenticationFilter     : 用户已认证，ID: 42
+2025-05-12 23:25:32.033  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:25:32.034  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:32.034 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:42.219  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:25:42.219  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:42.222 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:52.096  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:25:52.097  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:52.097 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:25:52.099  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:25:52.100  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:25:52.100 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:26:02.043  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:26:02.044  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:26:02.044 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:26:04.045  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:26:04.045  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:26:04.046 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:26:04.079  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:26:04.080  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:26:04.080 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:26:12.026  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:26:12.026  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:26:12.026 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:26:22.030  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:26:22.030  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:26:22.030 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:26:22.032  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:26:22.033  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:26:22.033 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:27:04.035  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:27:04.036  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:27:04.036 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:27:04.036  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:27:04.036  INFO 55640 --- [http-nio-8080-exec-3] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:27:04.037 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:27:04.053  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:27:04.053  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:27:04.053 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:27:04.062  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:27:04.062  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:27:04.063 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:28:04.030  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:28:04.030  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:28:04.031 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:28:04.031  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:28:04.031  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:28:04.031 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:28:04.032  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:28:04.033  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:28:04.033 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:28:04.034  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:28:04.035  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:28:04.036 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:29:04.022  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:04.023  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:04.023 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:04.025  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:29:04.025  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:04.025 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:04.031  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:29:04.031  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:29:04.031 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:29:04.033  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:29:04.034  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:29:04.034 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:29:16.263  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:16.265  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:16.265 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:16.283 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : 处理请求: /api/chat/messages/13
+2025-05-12 23:29:16.284 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : JWT Token有效，用户/管理员ID: 42
+2025-05-12 23:29:16.284 DEBUG 55640 --- [http-nio-8080-exec-3] c.s.s.config.JwtAuthenticationFilter     : 用户已认证，ID: 42
+2025-05-12 23:29:22.035  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:29:22.036  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:22.037 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:22.037  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:22.038  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:22.038 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:32.034  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:32.035  INFO 55640 --- [http-nio-8080-exec-2] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:32.036 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:42.035  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:42.036  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:42.036 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:52.023  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:29:52.023  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:52.024 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:29:52.025  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:29:52.026  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:29:52.026 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:30:02.035  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:30:02.035  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:30:02.035 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:30:04.027  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:30:04.028  INFO 55640 --- [http-nio-8080-exec-10] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:30:04.028 DEBUG 55640 --- [http-nio-8080-exec-10] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:30:04.030  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:30:04.031  INFO 55640 --- [http-nio-8080-exec-5] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:30:04.031 DEBUG 55640 --- [http-nio-8080-exec-5] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:30:12.026  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:30:12.027  INFO 55640 --- [http-nio-8080-exec-4] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:30:12.027 DEBUG 55640 --- [http-nio-8080-exec-4] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:31:00.321  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:31:00.321  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:31:00.321 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:31:00.321  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:31:00.323  INFO 55640 --- [http-nio-8080-exec-8] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:31:00.323 DEBUG 55640 --- [http-nio-8080-exec-8] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:31:00.344 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.config.JwtAuthenticationFilter     : 处理请求: /api/chat/messages/13
+2025-05-12 23:31:00.345 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.config.JwtAuthenticationFilter     : JWT Token有效，用户/管理员ID: 42
+2025-05-12 23:31:00.345 DEBUG 55640 --- [http-nio-8080-exec-2] c.s.s.config.JwtAuthenticationFilter     : 用户已认证，ID: 42
+2025-05-12 23:31:02.033  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:31:02.034  INFO 55640 --- [http-nio-8080-exec-9] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:31:02.034 DEBUG 55640 --- [http-nio-8080-exec-9] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
+2025-05-12 23:31:04.035  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"PING"}
+2025-05-12 23:31:04.035  INFO 55640 --- [http-nio-8080-exec-1] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:31:04.036 DEBUG 55640 --- [http-nio-8080-exec-1] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:31:04.036  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[42,43,51,47,45,49,52]}
+2025-05-12 23:31:04.037  INFO 55640 --- [http-nio-8080-exec-6] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 46 设置为在线状态
+2025-05-12 23:31:04.037 DEBUG 55640 --- [http-nio-8080-exec-6] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户46活动状态
+2025-05-12 23:31:12.040  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 接收到WebSocket消息: {"type":"GET_USER_STATUS","userIds":[46]}
+2025-05-12 23:31:12.041  INFO 55640 --- [http-nio-8080-exec-7] c.s.s.s.i.UserOnlineStatusServiceImpl    : 用户 42 设置为在线状态
+2025-05-12 23:31:12.041 DEBUG 55640 --- [http-nio-8080-exec-7] c.s.s.websocket.ChatWebSocketHandler     : 已更新用户42活动状态
