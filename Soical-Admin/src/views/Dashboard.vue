@@ -3,9 +3,12 @@
     <div class="dashboard-header">
       <h1 class="page-title">控制台</h1>
       <div class="header-actions">
-        <el-button size="small" type="primary" plain @click="fetchAllData">
-          <el-icon><Refresh /></el-icon>
-          <span>刷新数据</span>
+        <el-button size="small" type="primary" circle @click="fetchAllData">
+          <el-icon class="refresh-icon">
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+              <path fill="currentColor" d="M784.512 230.272v-50.56a32 32 0 1 1 64 0v149.056a32 32 0 0 1-32 32H667.52a32 32 0 1 1 0-64h92.992A320 320 0 1 0 524.8 833.152a320 320 0 0 0 320-320h64a384 384 0 0 1-384 384 384 384 0 0 1-384-384 384 384 0 0 1 643.712-282.88z"/>
+            </svg>
+          </el-icon>
         </el-button>
       </div>
     </div>
@@ -159,7 +162,6 @@ import {
   ChatLineRound, 
   Star, 
   Connection, 
-  Refresh,
   ArrowUp,
   ArrowDown
 } from '@element-plus/icons-vue';
@@ -735,14 +737,17 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     
-    :deep(.el-button) {
+    .el-button {
       display: flex;
       align-items: center;
-      gap: 5px;
-      border-radius: 6px;
+      justify-content: center;
       
-      .el-icon {
-        margin-right: 4px;
+      .refresh-icon {
+        width: 1em;
+        height: 1em;
+        margin: 0;
+        font-size: 18px;
+        color: #fff;
       }
     }
   }

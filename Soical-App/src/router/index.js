@@ -167,11 +167,18 @@ const routes = [
   {
     path: '/verification',
     name: 'VerificationCenter',
-    component: () => import('../views/verification/VerificationCenter.vue'),
+    component: () => import('../pages/verification/VerificationCenter.vue'),
     meta: {
       requiresAuth: true,
       title: '认证中心'
     }
+  },
+  // 关于我们页面
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../pages/AboutPage.vue'),
+    meta: { title: '关于我们' }
   },
   // 捕获所有未匹配的路由
   {

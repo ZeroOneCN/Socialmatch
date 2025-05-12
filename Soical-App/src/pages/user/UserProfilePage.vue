@@ -154,7 +154,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { showToast, showSuccessToast } from 'vant';
 import { useUserStore } from '../../stores/user';
@@ -236,6 +236,14 @@ const formatBirthday = (birthday) => {
   return `${year}-${month}-${day} (${age}岁)`;
 };
 
+// 监听路由参数变化
+watch(() => route.params.id, (newId, oldId) => {
+  if (newId && newId !== oldId) {
+    console.log('用户ID变化，重新加载资料:', newId);
+    fetchUserProfile();
+  }
+}, { immediate: true });
+
 // 获取用户资料
 const fetchUserProfile = async () => {
   if (!userId.value) return;
@@ -245,6 +253,8 @@ const fetchUserProfile = async () => {
     // 先清除之前的数据，避免显示旧数据
     userProfile.value = null;
     userStats.value = { posts: 0, followers: 0, following: 0 };
+    userPosts.value = [];
+    isFollowing.value = false;
     
     const response = await userApi.getUserProfile(userId.value);
     if (response.data) {
@@ -279,11 +289,11 @@ const fetchUserProfile = async () => {
       await fetchUserStats();
       
       // 获取用户动态
-      fetchUserPosts();
+      await fetchUserPosts();
       
       // 获取关注状态
       if (userId.value !== currentUserId.value) {
-        checkFollowStatus();
+        await checkFollowStatus();
       }
     }
   } catch (error) {
@@ -409,9 +419,7 @@ const goToFollowing = () => {
     showToast('数据错误，请重试');
     return;
   }
-  router.push({
-    path: `/user/profile/${userId.value}/following`
-  });
+  router.push(`/user/profile/${userId.value}/following`);
 };
 
 // 前往粉丝列表页
@@ -422,15 +430,8 @@ const goToFollowers = () => {
     showToast('数据错误，请重试');
     return;
   }
-  router.push({
-    path: `/user/profile/${userId.value}/followers`
-  });
+  router.push(`/user/profile/${userId.value}/followers`);
 };
-
-// 加载数据
-onMounted(() => {
-  fetchUserProfile();
-});
 </script>
 
 <style scoped>

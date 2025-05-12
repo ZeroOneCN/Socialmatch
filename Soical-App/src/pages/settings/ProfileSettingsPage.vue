@@ -307,6 +307,7 @@ import { useUserStore } from '../../stores/user'
 import * as userApi from '../../api/user'
 import * as commonApi from '../../api/common'
 import { areaList } from '@vant/area-data'
+import { getCurrentLocationInfo } from '../../utils/mapUtils'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -896,7 +897,7 @@ const confirmGenderSelection = (genderValue) => {
   });
 };
 
-// 获取当前位置（直接捕获API不存在的异常情况）
+// 获取当前位置
 const getCurrentLocation = async () => {
   if (isLocating.value) return
   
@@ -908,146 +909,27 @@ const getCurrentLocation = async () => {
       duration: 0
     })
     
-    // 检查API是否实际可用
-    if (typeof commonApi.getLocationByCoords !== 'function' || typeof commonApi.getLocationByIp !== 'function') {
-      console.error('位置API未实现，使用模拟数据')
-      // 使用模拟数据
-      const mockCityData = {
-        code: 200,
-        data: {
-          province: '广东省',
-          city: '深圳市',
-          provinceCode: '440000',
-          cityCode: '440300'
-        }
-      }
-      handleLocationResult(mockCityData)
-      isLocating.value = false
-      closeToast()
-      return
-    }
+    // 使用高德地图API获取位置信息
+    const locationInfo = await getCurrentLocationInfo()
     
-    // 尝试通过API获取当前位置
-    try {
-      // 检查是否有位置服务API
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-          try {
-            console.log('获取到位置坐标:', position.coords)
-            const { latitude, longitude } = position.coords
-            
-            // 调用API获取城市名称
-            // 这里可以根据项目的API结构调整
-            const locationData = await commonApi.getLocationByCoords({
-              latitude,
-              longitude
-            })
-            
-            handleLocationResult(locationData)
-          } catch (error) {
-            console.error('位置解析失败:', error)
-            fallbackToIpLocation()
-          } finally {
-            isLocating.value = false
-            closeToast()
-          }
-        }, (error) => {
-          console.error('获取位置失败:', error)
-          fallbackToIpLocation()
-        }, {
-          timeout: 10000,
-          maximumAge: 0
-        })
-      } else {
-        console.log('浏览器不支持定位')
-        fallbackToIpLocation()
-      }
-    } catch (e) {
-      console.error('浏览器定位API错误:', e)
-      fallbackToIpLocation()
-    }
+    // 更新表单数据
+    formData.value.city = locationInfo.city
+    formData.value.provinceCode = locationInfo.province ? locationInfo.province.replace(/省|市/g, '') : ''
+    formData.value.cityCode = locationInfo.city ? locationInfo.city.replace(/市/g, '') : ''
+    
+    showSuccessToast('位置获取成功')
   } catch (error) {
-    isLocating.value = false
-    closeToast()
-    console.error('获取位置发生错误:', error)
+    console.error('获取位置失败:', error)
     showToast('获取位置失败，请稍后重试')
-  }
-}
-
-// 备选方案：使用IP定位（处理API不存在的情况）
-const fallbackToIpLocation = async () => {
-  try {
-    console.log('尝试使用IP定位')
-    
-    // 检查API是否实际可用
-    if (typeof commonApi.getLocationByIp !== 'function') {
-      console.error('IP定位API未实现，使用模拟数据')
-      // 使用模拟数据
-      const mockCityData = {
-        code: 200,
-        data: {
-          province: '北京市',
-          city: '北京市',
-          provinceCode: '110000',
-          cityCode: '110100'
-        }
-      }
-      handleLocationResult(mockCityData)
-      return
-    }
-    
-    // 调用IP定位API
-    const locationData = await commonApi.getLocationByIp()
-    
-    handleLocationResult(locationData)
-  } catch (error) {
-    console.error('IP定位失败:', error)
-    
-    // 当所有方法都失败时，使用默认城市
-    const defaultCityData = {
-      code: 200,
-      data: {
-        province: '上海市',
-        city: '上海市',
-        provinceCode: '310000',
-        cityCode: '310100'
-      }
-    }
-    handleLocationResult(defaultCityData)
-    showToast('使用默认位置：上海市')
   } finally {
     isLocating.value = false
     closeToast()
   }
 }
 
-// 处理定位结果
-const handleLocationResult = (locationData) => {
-  console.log('位置服务返回数据:', locationData)
-  
-  if (locationData?.data) {
-    const data = locationData.data
-    
-    // 更新表单数据
-    formData.value.city = data.city || data.cityName || (data.province ? `${data.province} ${data.city || ''}`.trim() : '')
-    formData.value.provinceCode = data.provinceCode || ''
-    formData.value.cityCode = data.cityCode || ''
-    
-    console.log('设置位置信息:', {
-      city: formData.value.city,
-      provinceCode: formData.value.provinceCode,
-      cityCode: formData.value.cityCode
-    })
-    
-    showSuccessToast('位置获取成功')
-  } else {
-    showToast('获取位置信息失败')
-  }
-}
-
 // 跳转到认证中心
 const goToVerificationCenter = () => {
-  router.push('/verification/center');
+  router.push('/verification');
 };
 </script>
 

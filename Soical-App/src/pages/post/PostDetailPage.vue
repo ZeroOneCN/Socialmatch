@@ -204,7 +204,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import { showToast, showImagePreview, showDialog } from 'vant'
@@ -248,19 +248,42 @@ const actionSheetOptions = computed(() => {
   }
 })
 
+// 监听路由参数变化
+watch(
+  () => route.params.postId,
+  (newPostId) => {
+    if (newPostId) {
+      postId.value = newPostId
+      // 重置状态
+      post.value = null
+      comments.value = []
+      replyTo.value = null
+      commentText.value = ''
+      // 重新获取数据
+      fetchPostDetail()
+    }
+  }
+)
+
 // 获取帖子详情
 const fetchPostDetail = async () => {
   loading.value = true
   try {
+    console.log('获取帖子详情，ID:', postId.value)
     const response = await postApi.getPostDetail(postId.value)
+    if (!response || !response.data) {
+      post.value = null
+      return
+    }
     post.value = response.data
     // 加载评论
     fetchComments()
   } catch (error) {
     console.error('获取帖子详情失败', error)
+    post.value = null
     showToast({
       type: 'fail',
-      message: '获取内容失败，请稍后再试'
+      message: error.response?.status === 404 ? '帖子不存在或已删除' : '获取内容失败，请稍后再试'
     })
   } finally {
     loading.value = false

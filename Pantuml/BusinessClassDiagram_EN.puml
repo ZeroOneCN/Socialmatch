@@ -50,8 +50,8 @@ class Message {
   +markAsRead(): void
 }
 
-class Moment {
-  -momentId: String
+class Post {
+  -postId: String
   -userId: String
   -content: String
   -images: List<String>
@@ -63,30 +63,30 @@ class Moment {
 
 class Comment {
   -commentId: String
-  -momentId: String
+  -postId: String
   -userId: String
   -content: String
   -publishTime: Date
   +delete(): void
 }
 
-class Certification {
-  -certificationId: String
+class Verification {
+  -verificationId: String
   -userId: String
   -certType: String
   -certMaterials: String
   -certStatus: String
   -applyTime: Date
   -reviewTime: Date
-  +submitCertification(): void
-  +reviewCertification(result): Boolean
+  +submitVerification(): void
+  +reviewVerification(result): Boolean
 }
 
 User "1" -- "many" Match
 User "1" -- "many" Chat
 Chat "1" -- "many" Message
-User "1" -- "many" Moment
-Moment "1" -- "many" Comment
-User "1" -- "many" Certification
+User "1" -- "many" Post
+Post "1" -- "many" Comment
+User "1" -- "many" Verification
 
 @enduml 

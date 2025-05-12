@@ -75,7 +75,18 @@ export function getLikedPosts(params) {
  * @returns {Promise} - 返回请求Promise
  */
 export function getPostDetail(postId) {
-  return http.get(`/post/${postId}`)
+  if (!postId) {
+    console.error('获取帖子详情失败: 缺少帖子ID');
+    return Promise.reject(new Error('缺少帖子ID'));
+  }
+  
+  console.log(`获取帖子详情, ID: ${postId}`);
+  return http.get(`/post/${postId}`).then(response => {
+    if (!response.data) {
+      throw new Error('帖子不存在或已删除');
+    }
+    return response;
+  });
 }
 
 /**

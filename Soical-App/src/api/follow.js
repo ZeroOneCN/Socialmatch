@@ -52,9 +52,12 @@ export function getFollowingList(userId, page = 1, pageSize = 20) {
   }
   
   return request({
-    url: `/user/profile/${userId}/following`,
+    url: `/user/follow/following/${userId}`,
     method: 'get',
     params: { page, pageSize }
+  }).then(response => {
+    console.log('关注列表API响应:', response);
+    return response;
   });
 }
 
@@ -74,9 +77,29 @@ export function getFollowerList(userId, page = 1, pageSize = 20) {
   }
   
   return request({
-    url: `/user/profile/${userId}/followers`,
+    url: `/user/follow/followers/${userId}`,
     method: 'get',
     params: { page, pageSize }
+  }).then(response => {
+    console.log('粉丝列表API响应:', response);
+    return response;
+  });
+}
+
+/**
+ * 批量检查关注状态
+ * @param {number[]} userIds - 用户ID数组
+ * @returns {Promise} - 返回请求Promise
+ */
+export function batchCheckFollowStatus(userIds) {
+  if (!userIds || !userIds.length) {
+    return Promise.resolve({ data: {} });
+  }
+  
+  return request({
+    url: '/user/follow/status/batch',
+    method: 'post',
+    data: { userIds }
   });
 }
 
@@ -85,5 +108,6 @@ export default {
   unfollowUser,
   checkFollowStatus,
   getFollowingList,
-  getFollowerList
+  getFollowerList,
+  batchCheckFollowStatus
 } 

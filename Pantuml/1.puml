@@ -1,45 +1,16 @@
-@startuml "在线聊天活动图"
+@startuml
+skinparam monochrome true
+skinparam dpi 300
+skinparam defaultFontSize 14
 
 start
-:用户进入推荐匹配列表;
-
-if (是否有匹配成功的用户?) then (是)
-  :选择聊天对象;
-  :进入聊天界面;
-
-  partition "消息发送流程" {
-    :编写消息内容;
-    :点击发送按钮;
-
-    fork
-      :前端显示发送消息;
-    fork again
-      :WebSocket发送消息到服务器;
-      :服务器保存消息记录;
-
-      if (对方在线?) then (是)
-        :实时推送消息到对方;
-        :更新消息状态为"已送达";
-      else (否)
-        :实时推送消息到对方;
-        :等待对方上线;
-      endif
-    end fork
-  }
-
-  partition "消息接收流程" {
-    :显示消息内容;
-    :更新消息状态为"已读"（前端不显示）;
-    :发送已读回执到服务器;
-  }
-
-  :继续聊天或退出;
-
+:访问注册页面;
+:输入用户名、密码\n和邮箱;
+:点击注册按钮;
+if (注册成功?) then (是)
+  :显示注册成功提示\n并跳转登录页;
 else (否)
-  :显示"暂无聊天用户";
-  :返回推荐匹配页面;
+  :显示错误提示\n"用户名已存在或格式错误";
 endif
-
 stop
-
 @enduml

@@ -98,27 +98,21 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="统计" width="180">
+        <el-table-column label="统计" width="220">
           <template #default="scope">
             <div class="post-stats">
-              <el-tooltip content="点赞数" placement="top">
-                <div class="stat-item">
-                  <el-icon><Star /></el-icon>
-                  <span>{{ scope.row.likeCount }}</span>
-                </div>
-              </el-tooltip>
-              <el-tooltip content="评论数" placement="top">
-                <div class="stat-item">
-                  <el-icon><ChatLineRound /></el-icon>
-                  <span>{{ scope.row.commentCount }}</span>
-                </div>
-              </el-tooltip>
-              <el-tooltip content="分享数" placement="top">
-                <div class="stat-item">
-                  <el-icon><Share /></el-icon>
-                  <span>{{ scope.row.shareCount }}</span>
-                </div>
-              </el-tooltip>
+              <div class="stat-item">
+                <el-icon><Star /></el-icon>
+                <span>点赞 {{ scope.row.likeCount }}</span>
+              </div>
+              <div class="stat-item">
+                <el-icon><ChatLineRound /></el-icon>
+                <span>评论 {{ scope.row.commentCount }}</span>
+              </div>
+              <div class="stat-item">
+                <el-icon><Share /></el-icon>
+                <span>分享 {{ scope.row.shareCount }}</span>
+              </div>
             </div>
           </template>
         </el-table-column>

@@ -65,7 +65,13 @@
       
       <!-- 帖子列表 -->
       <div class="post-list" v-else>
-        <van-pull-refresh v-model="refreshing" @refresh="refresh">
+        <van-pull-refresh 
+          v-model="refreshing" 
+          @refresh="refresh"
+          :disabled="!isAtTop"
+          :pulling-text="isAtTop ? '下拉刷新' : ''"
+          :loosing-text="isAtTop ? '释放刷新' : ''"
+        >
           <van-list
             v-model:loading="loadingMore"
             :finished="finished"
@@ -192,7 +198,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { showToast, showDialog, showImagePreview } from 'vant'
@@ -229,6 +235,15 @@ const postActions = ref([
 
 // 举报相关
 const showReportDialog = ref(false)
+
+// 添加滚动位置判断
+const isAtTop = ref(true)
+
+// 监听滚动事件
+const handleScroll = () => {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  isAtTop.value = scrollTop < 10
+}
 
 // 格式化时间
 const formatTime = (timestamp) => {
@@ -374,8 +389,12 @@ const getCurrentLocation = async () => {
 
 // 刷新
 const refresh = async () => {
+  if (!isAtTop.value) {
+    refreshing.value = false
+    return
+  }
+  
   console.log('刷新数据')
-  refreshing.value = true
   page.value = 1
   finished.value = false
   await fetchPosts()
@@ -526,11 +545,16 @@ const showPostForm = () => {
   router.push('/post/create')
 }
 
-// 初始化
+// 添加和移除滚动监听
 onMounted(() => {
   if (isLoggedIn.value) {
     fetchPosts()
   }
+  window.addEventListener('scroll', handleScroll, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 

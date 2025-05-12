@@ -69,42 +69,65 @@ const onLoad = async () => {
     const response = await followApi.getFollowerList(userId.value, currentPage.value, pageSize);
     console.log('粉丝列表响应:', response);
     
-    const { records, total } = response.data || { records: [], total: 0 };
+    if (!response || !response.data) {
+      console.error('API响应数据为空:', response);
+      showToast('获取数据失败');
+      finished.value = true;
+      return;
+    }
     
-    // 处理返回的数据，并检查是否已关注
-    if (records && records.length > 0) {
-      const userIds = records.map(user => user.userId);
+    const { records, total } = response.data;
+    console.log('解析的数据:', { records, total });
+    
+    if (!Array.isArray(records)) {
+      console.error('API响应数据格式错误:', records);
+      showToast('数据格式错误');
+      finished.value = true;
+      return;
+    }
+    
+    // 处理返回的数据，确保所有必要字段都存在
+    const processedUsers = records.map(user => {
+      console.log('处理用户数据:', user);
+      return {
+        userId: user.userId,
+        nickname: user.nickname || user.username || '未设置昵称',
+        avatar: user.avatar || '/avatar-placeholder.png',
+        selfIntro: user.selfIntro || '这个人很懒，什么都没写~',
+        isFollowing: false,
+        followLoading: false
+      };
+    });
+    
+    // 获取关注状态
+    if (processedUsers.length > 0) {
       try {
+        const userIds = processedUsers.map(user => user.userId);
         const followStatusResponse = await followApi.batchCheckFollowStatus(userIds);
-        const followStatusMap = followStatusResponse.data || {};
+        console.log('关注状态响应:', followStatusResponse);
         
-        const newUsers = records.map(user => ({
-          ...user,
-          isFollowing: followStatusMap[user.userId] || false,
-          followLoading: false
-        }));
-        
-        followersList.value.push(...newUsers);
+        if (followStatusResponse && followStatusResponse.data) {
+          const followStatusMap = followStatusResponse.data;
+          processedUsers.forEach(user => {
+            user.isFollowing = !!followStatusMap[user.userId];
+          });
+        }
       } catch (error) {
-        console.error('获取关注状态失败', error);
-        // 即使获取关注状态失败，也继续显示粉丝列表
-        const newUsers = records.map(user => ({
-          ...user,
-          isFollowing: false,
-          followLoading: false
-        }));
-        followersList.value.push(...newUsers);
+        console.error('获取关注状态失败:', error);
       }
     }
     
+    console.log('处理后的用户列表:', processedUsers);
+    followersList.value.push(...processedUsers);
+    
     // 判断是否加载完成
-    if (followersList.value.length >= total) {
+    if (followersList.value.length >= (total || 0)) {
       finished.value = true;
     } else {
       currentPage.value += 1;
     }
   } catch (error) {
-    console.error('获取粉丝列表失败', error);
+    console.error('获取粉丝列表失败:', error);
     showToast('获取粉丝列表失败');
     finished.value = true;
   } finally {

@@ -14,7 +14,7 @@
       </div>
       
       <!-- 内容为空提示 -->
-      <div class="empty-state" v-else-if="!loading && likedPosts.length === 0">
+      <div class="empty-state" v-else-if="!loading && !error && likedPosts.length === 0">
         <van-empty description="暂无点赞内容">
           <template #description>
             <p>您还没有点赞任何动态</p>
@@ -23,16 +23,36 @@
         </van-empty>
       </div>
       
+      <!-- 错误状态 -->
+      <div class="error-state" v-else-if="error && likedPosts.length === 0">
+        <van-empty image="error" description="加载失败">
+          <template #description>
+            <p>获取点赞内容失败</p>
+          </template>
+          <van-button round type="primary" size="small" @click="retryLoad">重新加载</van-button>
+        </van-empty>
+      </div>
+      
       <!-- 帖子列表 -->
-      <div class="post-list" v-else>
-        <van-pull-refresh v-model="refreshing" @refresh="refresh">
+      <div class="post-list" v-else ref="postListRef" @scroll="onScroll">
+        <van-pull-refresh 
+          v-model="refreshing" 
+          @refresh="refresh"
+          success-text="刷新成功" 
+          loading-text="正在刷新..."
+          :disabled="!canPullRefresh"
+          :head-height="50"
+          pull-distance="50"
+        >
           <van-list
             v-model:loading="loadingMore"
             :finished="finished"
             finished-text="没有更多了"
-            :error.sync="error"
-            error-text="请求失败，点击重新加载"
+            :error="error"
+            error-text="加载失败，点击重试"
             @load="loadMore"
+            offset="300"
+            immediate-check
           >
             <div class="post-item" v-for="post in likedPosts" :key="post.postId">
               <div class="post-header">
@@ -127,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import { showToast, showImagePreview, showDialog } from 'vant'
@@ -148,11 +168,30 @@ const error = ref(false)
 const page = ref(1)
 const pageSize = ref(10)
 
+const postListRef = ref(null)
+const canPullRefresh = ref(true)
+let scrollTimer = null
+
+// 防抖函数
+const debounce = (fn, delay) => {
+  return (...args) => {
+    if (scrollTimer) clearTimeout(scrollTimer)
+    scrollTimer = setTimeout(() => {
+      fn.apply(this, args)
+    }, delay)
+  }
+}
+
 // 获取我点赞的帖子
 const fetchLikedPosts = async () => {
   if (!userStore.isLoggedIn) {
     showToast('请先登录');
     router.push('/login');
+    return;
+  }
+  
+  // 如果正在加载中，不重复加载
+  if (loading.value || loadingMore.value) {
     return;
   }
   
@@ -176,24 +215,29 @@ const fetchLikedPosts = async () => {
       if (refreshing.value) {
         likedPosts.value = records || [];
       } else {
-        likedPosts.value = [...likedPosts.value, ...(records || [])];
+        // 确保不重复添加
+        const newPosts = records || [];
+        const existingIds = new Set(likedPosts.value.map(p => p.postId));
+        const uniqueNewPosts = newPosts.filter(p => !existingIds.has(p.postId));
+        likedPosts.value = [...likedPosts.value, ...uniqueNewPosts];
       }
       
       // 判断是否加载完毕
-      if (!records || records.length < pageSize.value || likedPosts.value.length >= total) {
+      if (!records || records.length === 0 || likedPosts.value.length >= total) {
         finished.value = true;
+        console.log('已加载全部数据，总数:', total);
       } else {
         page.value++;
+        console.log('加载下一页，当前页码:', page.value);
       }
     } else {
       console.error('API响应格式异常:', response);
-      finished.value = true;
+      error.value = true;
     }
   } catch (error) {
     console.error('获取点赞帖子失败', error);
     showToast('获取点赞内容失败，请稍后再试');
     error.value = true;
-    finished.value = true;
   } finally {
     loading.value = false;
     refreshing.value = false;
@@ -277,22 +321,54 @@ const unlikePost = async (post) => {
   await toggleLike(post);
 };
 
-// 刷新
+// 监听滚动事件
+const onScroll = debounce(() => {
+  if (!postListRef.value) return
+  
+  const { scrollTop } = postListRef.value
+  // 添加5px的缓冲区，避免过于敏感
+  canPullRefresh.value = scrollTop <= 5
+}, 100)
+
+// 清理定时器
+onUnmounted(() => {
+  if (scrollTimer) {
+    clearTimeout(scrollTimer)
+    scrollTimer = null
+  }
+})
+
+// 刷新处理
 const refresh = async () => {
-  console.log('刷新点赞列表');
-  refreshing.value = true;
-  page.value = 1;
-  finished.value = false;
-  await fetchLikedPosts();
-};
+  // 如果不在顶部，不执行刷新
+  if (!canPullRefresh.value) {
+    refreshing.value = false
+    return
+  }
+  
+  console.log('刷新点赞列表')
+  refreshing.value = true
+  page.value = 1
+  finished.value = false
+  error.value = false
+  await fetchLikedPosts()
+}
 
 // 加载更多
 const loadMore = async () => {
-  if (finished.value) return;
+  if (finished.value || loading.value || loadingMore.value) {
+    return;
+  }
   
   console.log('加载更多点赞帖子');
   loadingMore.value = true;
   await fetchLikedPosts();
+};
+
+// 重试加载
+const retryLoad = () => {
+  error.value = false;
+  loadMore();
 };
 
 // 预览图片
@@ -361,10 +437,17 @@ onMounted(() => {
   min-height: 100vh;
   background-color: #f7f8fa;
   padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .content-container {
-  padding: 16px;
+  flex: 1;
+  height: calc(100vh - 46px); /* 减去导航栏高度 */
+  position: relative;
+  overflow: hidden;
 }
 
 .loading-state {
@@ -385,15 +468,55 @@ onMounted(() => {
   padding: 60px 0;
 }
 
+.error-state {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.error-state .van-empty {
+  padding: 0;
+}
+
+.error-state p {
+  margin: 8px 0 16px;
+  color: #969799;
+  font-size: 14px;
+}
+
 .post-list {
-  padding-bottom: 60px;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-list :deep(.van-pull-refresh) {
+  overflow: visible;
+  height: 100%;
+}
+
+.post-list :deep(.van-pull-refresh__track) {
+  overflow: visible;
+  height: 100%;
+}
+
+.post-list :deep(.van-pull-refresh__head) {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #969799;
+  font-size: 14px;
+  z-index: 1;
 }
 
 .post-item {
   background-color: #fff;
   border-radius: 8px;
   padding: 16px;
-  margin-bottom: 12px;
+  margin: 0 16px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
