@@ -1,22 +1,22 @@
-# 🌟 Soical - 社交应用系统
+# 🌟 Social - 社交应用系统
 
 📱 社交应用全栈系统，包含移动端、管理后台和服务端。
 
 ## 📋 项目概述
 
-Soical 是一个完整的社交应用系统，包含以下三个主要组件：
+Social 是一个完整的社交应用系统，包含以下三个主要组件：
 
-1. **Soical-App** 📱 - 基于 Vue 3 和 Vant UI 开发的移动端应用
-2. **Soical-Admin** 💼 - 基于 Vue 3 和 Element Plus 开发的管理后台
-3. **Soical-Server** 🖥️ - 基于 Spring Boot 和 MyBatis-Plus 开发的后端服务
+1. **Social-App** 📱 - 基于 Vue 3 和 Vant UI 开发的移动端应用
+2. **Social-Admin** 💼 - 基于 Vue 3 和 Element Plus 开发的管理后台
+3. **Social-Server** 🖥️ - 基于 Spring Boot 和 MyBatis-Plus 开发的后端服务
 
 ## 🏗️ 系统架构
 
 ```
-Soical/
-├── Soical-App/           # 移动端应用
-├── Soical-Admin/         # 管理后台
-├── Soical-Server/        # 后端服务
+Social/
+├── Social-App/           # 移动端应用
+├── Social-Admin/         # 管理后台
+├── Social-Server/        # 后端服务
 └── docs/                 # 项目文档
 ```
 
@@ -71,14 +71,14 @@ Soical/
 ## 📝 部署步骤
 
 1. 数据库配置
-   - 创建数据库：soical
-   - 执行初始化脚本：`init_soical_db.sql`
+   - 创建数据库：social
+   - 执行初始化脚本：`init_social_db.sql`
    - 配置数据库连接信息
 
 2. 后端部署
    - 修改配置文件
    - 打包：`mvn clean package`
-   - 运行：`java -jar soical-server.jar`
+   - 运行：`java -jar social-server.jar`
 
 3. 前端部署
    - 安装依赖：`npm install`
