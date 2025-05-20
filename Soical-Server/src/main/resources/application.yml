@@ -8,7 +8,7 @@ spring:
   
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/soical001?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/social?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password:
   
@@ -78,18 +78,18 @@ mybatis-plus:
 # 日志配置
 logging:
   level:
-    com.soical.server: debug
-    springfox: info
-    org.springframework.jdbc.datasource.DataSourceTransactionManager: debug
-    # 添加事务相关日志，帮助诊断问题
-    org.springframework.transaction: debug
+    root: OFF
+    com.soical.server: OFF
+    springfox: OFF
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: OFF
+    org.springframework.transaction: OFF
 
-# 阿里云OSS配置
+# OSS配置
 aliyun:
   oss:
     enabled: true
     endpoint: https://oss-cn-shenzhen.aliyuncs.com
-    accessKeyId: LTAI5tJTmUb4QVuX9n5GAkjL
-    accessKeySecret: py7GozcJPM1yddJsth5CVJSkcK1tlD
-    bucketName: image-0620
-    url: https://image-0620.oss-cn-shenzhen.aliyuncs.com
+    accessKeyId: 
+    accessKeySecret: 
+    bucketName: 
+    url: 

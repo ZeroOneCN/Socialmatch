@@ -1,0 +1,135 @@
+@startuml
+' ER Diagram for Social App
+' 主要业务表实体关系
+
+entity t_user {
+  * user_id : bigint <<PK>>
+  --
+  username : varchar
+  phone : varchar
+  password : varchar
+  avatar : varchar
+  gender : int
+  birthday : date
+  status : int
+  create_time : datetime
+}
+
+entity t_user_profile {
+  * profile_id : bigint <<PK>>
+  --
+  user_id : bigint <<FK>>
+  nickname : varchar
+  education : int
+  occupation : varchar
+  city : varchar
+  hobbies : text
+  avatar : varchar
+  last_active_time : datetime
+}
+
+t_user ||--o{ t_user_profile : "user_id" }
+
+entity t_user_preference {
+  * preference_id : bigint <<PK>>
+  --
+  user_id : bigint <<FK>>
+  interests : text
+  city : varchar
+  min_age : int
+  max_age : int
+  education : int
+}
+
+t_user ||--o{ t_user_preference : "user_id" }
+
+entity t_user_match {
+  * match_id : bigint <<PK>>
+  --
+  user_a_id : bigint <<FK>>
+  user_b_id : bigint <<FK>>
+  status : int
+  create_time : datetime
+}
+
+t_user ||--o{ t_user_match : "user_a_id" }
+t_user ||--o{ t_user_match : "user_b_id" }
+
+entity t_conversation {
+  * conversation_id : bigint <<PK>>
+  --
+  user_a_id : bigint <<FK>>
+  user_b_id : bigint <<FK>>
+  last_message : text
+  last_message_time : datetime
+}
+
+t_user ||--o{ t_conversation : "user_a_id" }
+t_user ||--o{ t_conversation : "user_b_id" }
+
+entity t_chat_message {
+  * message_id : bigint <<PK>>
+  --
+  conversation_id : bigint <<FK>>
+  sender_id : bigint <<FK>>
+  receiver_id : bigint <<FK>>
+  content : text
+  message_type : int
+  is_read : tinyint
+  create_time : datetime
+}
+
+t_conversation ||--o{ t_chat_message : "conversation_id" }
+t_user ||--o{ t_chat_message : "sender_id" }
+t_user ||--o{ t_chat_message : "receiver_id" }
+
+entity t_post {
+  * post_id : bigint <<PK>>
+  --
+  user_id : bigint <<FK>>
+  content : text
+  images : json
+  like_count : int
+  comment_count : int
+  create_time : datetime
+}
+
+t_user ||--o{ t_post : "user_id" }
+
+entity t_comment {
+  * comment_id : bigint <<PK>>
+  --
+  post_id : bigint <<FK>>
+  user_id : bigint <<FK>>
+  content : text
+  parent_id : bigint <<FK>>
+  create_time : datetime
+}
+
+t_post ||--o{ t_comment : "post_id" }
+t_user ||--o{ t_comment : "user_id" }
+t_comment ||--o{ t_comment : "parent_id" }
+
+entity t_user_follow {
+  * follow_id : bigint <<PK>>
+  --
+  follower_id : bigint <<FK>>
+  followed_id : bigint <<FK>>
+  create_time : datetime
+}
+
+t_user ||--o{ t_user_follow : "follower_id" }
+t_user ||--o{ t_user_follow : "followed_id" }
+
+entity t_verification {
+  * verification_id : bigint <<PK>>
+  --
+  user_id : bigint <<FK>>
+  type : varchar
+  status : varchar
+  create_time : datetime
+}
+
+t_user ||--o{ t_verification : "user_id" }
+
+@enduml 

@@ -1,0 +1,47 @@
+@startuml "消息聊天流程图"
+
+skinparam backgroundColor white
+skinparam ArrowColor #666666
+skinparam roundCorner 20
+skinparam shadowing false
+
+start
+:用户进入聊天页面;
+
+if (是否有匹配用户?) then (是)
+  :选择聊天对象;
+  :建立WebSocket连接;
+  
+  partition "消息发送流程" {
+    :输入消息内容;
+    :点击发送按钮;
+    
+    fork
+      :前端显示消息;
+    fork again
+      :WebSocket发送消息;
+      :服务器保存消息;
+      :推送至接收方;
+    end fork
+  }
+  
+  partition "消息接收流程" {
+    :接收新消息;
+    :显示消息内容;
+    :发送已读回执;
+  }
+  
+  if (是否继续聊天?) then (是)
+    :继续对话;
+  else (否)
+    :退出聊天;
+  endif
+  
+else (否)
+  :显示"暂无聊天对象";
+  :返回匹配页面;
+endif
+
+stop
+
+@enduml 

@@ -16,4 +16,4 @@ public class SoicalServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SoicalServerApplication.class, args);
     }
-} 
+}

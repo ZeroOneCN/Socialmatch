@@ -1,0 +1,48 @@
+@startuml "社区动态流程图"
+
+skinparam backgroundColor white
+skinparam ArrowColor #666666
+skinparam roundCorner 20
+skinparam shadowing false
+
+start
+:用户进入社区页面;
+
+if (是否发布动态?) then (是)
+  :编写动态内容;
+  
+  if (是否添加图片?) then (是)
+    :选择图片;
+    :上传至OSS;
+    :获取图片URL;
+  endif
+  
+  :提交动态;
+  :保存至数据库;
+  :更新动态流;
+  
+else (否)
+  :浏览动态流;
+  
+  if (是否点赞?) then (是)
+    :记录点赞;
+    :更新点赞数;
+  endif
+  
+  if (是否评论?) then (是)
+    :输入评论;
+    :提交评论;
+    :更新评论列表;
+  endif
+  
+  if (是否分享?) then (是)
+    :选择分享方式;
+    :生成分享链接;
+  endif
+endif
+
+:更新推荐算法;
+
+stop
+
+@enduml 

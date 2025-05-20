@@ -1,0 +1,55 @@
+@startuml "个人中心流程图"
+
+skinparam backgroundColor white
+skinparam ArrowColor #666666
+skinparam roundCorner 20
+skinparam shadowing false
+
+start
+:用户进入个人中心;
+
+if (是否编辑资料?) then (是)
+  :选择编辑项;
+  
+  if (是否修改头像?) then (是)
+    :选择新头像;
+    :上传至OSS;
+    :更新头像URL;
+  endif
+  
+  if (是否修改昵称?) then (是)
+    :输入新昵称;
+    :验证昵称;
+  endif
+  
+  if (是否修改兴趣?) then (是)
+    :选择兴趣标签;
+    :更新兴趣列表;
+  endif
+  
+  :保存修改;
+  :更新数据库;
+  
+else (否)
+  :查看个人资料;
+endif
+
+if (是否设置隐私?) then (是)
+  :进入隐私设置;
+  
+  if (是否限制匹配范围?) then (是)
+    :设置匹配条件;
+    :保存偏好设置;
+  endif
+  
+  if (是否设置可见性?) then (是)
+    :选择可见范围;
+    :更新权限设置;
+  endif
+endif
+
+:返回个人中心;
+
+stop
+
+@enduml 

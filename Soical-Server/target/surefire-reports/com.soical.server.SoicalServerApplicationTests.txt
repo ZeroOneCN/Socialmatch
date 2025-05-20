@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.soical.server.SoicalServerApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.908 s <<< FAILURE! - in com.soical.server.SoicalServerApplicationTests
-contextLoads  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'createWebSocketContainer' defined in class path resource [com/soical/server/config/WebSocketConfig.class]: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Attribute 'javax.websocket.server.ServerContainer' not found in ServletContext
-Caused by: java.lang.IllegalStateException: Attribute 'javax.websocket.server.ServerContainer' not found in ServletContext
-

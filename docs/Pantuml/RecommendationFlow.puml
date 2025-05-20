@@ -1,0 +1,45 @@
+@startuml "推荐匹配流程图"
+
+skinparam backgroundColor white
+skinparam ArrowColor #666666
+skinparam roundCorner 20
+skinparam shadowing false
+
+start
+:用户进入推荐页面;
+
+if (是否首次使用?) then (是)
+  :填写兴趣标签;
+  :设置匹配条件;
+else (否)
+  :加载已有偏好;
+endif
+
+:系统查询候选用户;
+
+fork
+  :计算兴趣相似度;
+fork again
+  :分析活跃频率;
+end fork
+
+:生成推荐列表;
+
+if (用户选择匹配?) then (是)
+  :发送匹配请求;
+  if (对方同意?) then (是)
+    :匹配成功;
+    :解锁聊天功能;
+  else (否)
+    :匹配失败;
+    :返回推荐列表;
+  endif
+else (否)
+  :继续浏览推荐;
+endif
+
+:更新推荐算法;
+
+stop
+
+@enduml 
